@@ -1,0 +1,130 @@
+<head>
+  <link rel="stylesheet" href="./stylesheets/darkstyles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="shortcut icon" href="https://svgur.com/i/cF3.svg" />
+</head>
+<body>
+  <div class="wrapper">
+    <div class="header">
+      <div class="logo-wrapper">
+        <div class="logo">
+          <p>Pathfinder</p>
+          <img class="logo-image" src="https://svgur.com/i/cF3.svg" />
+        </div>
+      </div>
+
+      <a href="#" role="button" class="button"
+        >View source on
+        <img
+          id="github-icon"
+          src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
+        />
+      </a>
+    </div>
+
+    <div class="main">
+      <div class="interface">
+        <!-- Choose algorithm section -->
+        <div class='choose-algorithm'>
+          <h2>Algorithms</h2>
+          <div class='algorithms-cards'>
+
+            
+            
+            <div class='dijkstra-wrapper'>
+              <input type='radio' value="dijkstra" id='dijkstra' name='checked-algorithm'>
+              <label for='dijkstra'>
+                <div class='card dijkstra'>
+                  <h3>Dijkstra</h3>
+                  <div class='card-info'>
+                    <p>Shortest path</p>
+                    <p>Weighted</p>
+                  </div>
+                </div>
+              </label>
+            </div>
+            
+            <div class='astar-wrapper'>
+              <input type='radio' value="astar" id='astar' name='checked-algorithm' checked='true'>
+            <label for='astar'>
+              <div class='card astar'>
+                <h3>A*</h3>
+                <div class='card-info'>
+                  <p>Shortest path</p>
+                  <p>Weighted</p>
+                </div>
+              </div>
+            </label>
+            </div>
+            
+
+            <div class='bfs-wrapper'>
+              <input type='radio' value="bfs" id='bfs' name='checked-algorithm'>
+            <label for='bfs'>
+              <div class='card bfs'>
+                <h3>BFS</h3>
+                <div class='card-info'>
+                  <p>Shortest path</p>
+                  <p>Weighted</p>
+                </div>
+              </div>
+            </label>
+            </div>
+            
+
+            
+          </div>
+
+          <div class='run-button-wrapper'>
+            <button id='run-button'>Find Path!</button>
+          </div>
+        </div>
+                
+
+              
+
+        <h2 class='mazes-h2'>Mazes</h2>
+        <div class="mazes-interface">
+          
+          <div class="mazes">
+            <div class="maze" id='rdm'>
+              <h3>recursive division maze</h3>
+              <p>Create a random maze using recursion</p>
+            </div>
+
+            <div class="maze" id='dfs-maze'>
+              <h3>DFS Maze</h3>
+              <p>Create a random maze using Depth-first Search</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-div">
+          <button class="button" onclick="stateBlock()">block</button>
+          <button class="button">Weight</button>
+          <button class="button" onclick="RDM()">
+            Recursive Division Maze
+          </button>
+          <button class="button" onclick="clearBoard()">Clear Board</button>
+        </div>
+      </div>
+
+      <div hidden id="no-path">
+        <h4>! There's no possible path.</h4>
+        <h5>
+          Please remove some of the walls, or change starting or ending point.
+        </h5>
+      </div>
+
+      <div class="table-grid">
+        <table class="tabela" cellspacing="0"></table>
+      </div>
+    </div>
+  </div>
+  <script defer src="main.js"></script>
+</body>

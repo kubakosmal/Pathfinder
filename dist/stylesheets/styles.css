@@ -1,0 +1,151 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Quicksand', sans-serif;
+    background-color: #FBFBFF;
+    
+  }
+
+  .logo {
+    display: flex;
+    font-weight: 300;
+    align-items: center;
+    margin-top: 10px;
+    background-color: #1b1b32;
+    
+    
+  }
+
+  .logo img {
+    width: 55px;
+    height: 55px;
+    margin: 5px;
+    background-color: #1b1b32;
+  }
+
+ 
+
+
+  .logo h1 {
+    margin-left: 27px;
+    background-color: #1b1b32;
+    color: white;
+    
+    
+  }
+  
+  .interface {
+    display: flex;
+    justify-content: center;
+  }
+
+  .start-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .start-button img {
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+  }
+
+  .start-button p {
+    font-size: 20px;
+    margin: 5px;
+  }
+
+  .interface {
+    margin: 20px;
+  }
+
+  .interface button {
+    width: 100px;
+    font-size: 20px;
+  }
+
+  #no-path {
+    color: red;
+    margin: auto;
+    width: 30%;
+    text-align: center;
+    padding: 15px;
+  }
+
+  #no-path h4 {
+    font-weight: 500;
+    margin: 5px;
+  }
+
+  #no-path h5 {
+    font-size: 15px;
+    font-weight: 400;
+  }
+
+  .table-grid {
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+  }
+
+  .tabela {
+    filter: drop-shadow(0 0 3px black);
+  }
+
+ 
+
+  td {
+    width: 27px;
+    height: 27px;
+    border: 1px solid rgb(175, 216, 248);
+    border-collapse: collapse;
+  }
+  
+  .start {
+    background-image: url('http://svgur.com/i/ahy.svg');
+    background-size: cover;
+  }
+  
+  .end {
+    background-image: url('http://svgur.com/i/aic.svg');
+    background-size: cover;
+  }
+  
+  .blocked {
+    background-color: #143452;
+    border-color: #143452;
+    animation-name: blockAnimation;
+    animation-duration: 0.5s;
+  }
+
+
+
+  .visited {
+  }
+
+  
+
+
+  .shortest-path-node {
+
+  }
+
+  @keyframes blockAnimation {
+    0% {
+      transform: scale(0.5);
+      background-color: #506b85;
+    }
+    75% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1.0);
+      background-color: #143452;
+    }
+  }
+
+ 
