@@ -1,5 +1,5 @@
 <head>
-  <link rel="stylesheet" href="./stylesheets/darkstyles.css" />
+  <link rel="stylesheet" href="./stylesheets/restyles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -7,6 +7,7 @@
     rel="stylesheet"
   />
   <link rel="shortcut icon" href="https://svgur.com/i/cF3.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body>
   <div class="wrapper">
@@ -30,88 +31,129 @@
     <div class="main">
       <div class="interface">
         <!-- Choose algorithm section -->
-        <div class='choose-algorithm'>
-          <h2>Algorithms</h2>
-          <div class='algorithms-cards'>
+        <div class="choose-algorithm">
+          <div class="algorithms-header">
+            <h2>Algorithms</h2>
+          </div>
 
-            
-            
-            <div class='dijkstra-wrapper'>
-              <input type='radio' value="dijkstra" id='dijkstra' name='checked-algorithm'>
-              <label for='dijkstra'>
-                <div class='card dijkstra'>
-                  <h3>Dijkstra</h3>
-                  <div class='card-info'>
-                    <p>Shortest path</p>
-                    <p>Weighted</p>
+          <div class="algorithms-radio">
+            <div class="radio-wrapper dijkstra-wrapper">
+              <input
+                type="radio"
+                value="dijkstra"
+                id="dijkstra"
+                name="checked-algorithm"
+              />
+              
+              
+              <label for="dijkstra" class='algorithm-label dijkstra'>
+                <!-- <span></span> -->
+                <div class="algorithm-name">
+                  <img class='algorithm-icon' src="https://svgur.com/i/ci4.svg" alt="">
+                  <p>Dijkstra</p>
+                </div>
+                <div class='indicators'>
+                  <div class="indicator">
+                    <img src="https://svgur.com/i/cee.svg" alt="">
+                  </div>
+                  <div class="indicator">
+                    <img src="https://svgur.com/i/cdm.svg" alt="">
                   </div>
                 </div>
               </label>
             </div>
-            
-            <div class='astar-wrapper'>
-              <input type='radio' value="astar" id='astar' name='checked-algorithm' checked='true'>
-            <label for='astar'>
-              <div class='card astar'>
-                <h3>A*</h3>
-                <div class='card-info'>
-                  <p>Shortest path</p>
-                  <p>Weighted</p>
-                </div>
-              </div>
-            </label>
-            </div>
-            
 
-            <div class='bfs-wrapper'>
-              <input type='radio' value="bfs" id='bfs' name='checked-algorithm'>
-            <label for='bfs'>
-              <div class='card bfs'>
-                <h3>BFS</h3>
-                <div class='card-info'>
-                  <p>Shortest path</p>
-                  <p>Weighted</p>
+            <div class="radio-wrapper astar-wrapper">
+              <input
+                type="radio"
+                value="astar"
+                id="astar"
+                name="checked-algorithm"
+                checked="true"
+              />
+              <label for="astar" class='algorithm-label astar'>
+                <!-- <span></span> -->
+                <div class="algorithm-name">
+                  <img class="algorithm-icon" src="https://svgur.com/i/cjo.svg" alt="">
+                  <p>A*</p>
                 </div>
-              </div>
-            </label>
+                <div class='indicators'>
+                  <div class="indicator">
+                    <img src="https://svgur.com/i/cee.svg" alt="">
+                  </div>
+                  <div class="indicator">
+                    <img src="https://svgur.com/i/cdm.svg" alt="">
+                  </div>
+                </div>
+              </label>
             </div>
-            
 
-            
+            <div class="radio-wrapper bfs-wrapper">
+              <input
+                type="radio"
+                value="bfs"
+                id="bfs"
+                name="checked-algorithm"
+              />
+              <label for="bfs" class='algorithm-label bfs'>
+                <!-- <span></span> -->
+                <div class="algorithm-name">
+                  <img class='algorithm-icon' src="https://svgur.com/i/ckY.svg" alt="">
+                  <p>BFS</p>
+                </div>
+                <div class='indicators'>
+                  <div class="indicator">
+                    <img src="https://svgur.com/i/cee.svg" alt="">
+                  </div>
+                  <div class="indicator">
+                    <img src="https://svgur.com/i/cdm.svg" alt="">
+                  </div>
+                </div>
+              </label>
+            </div>
+            <div class="run-button-wrapper">
+              <button onclick='run()' id="run-button">
+                Find Path 
+                <img id='run-img' src="https://svgur.com/i/cjp.svg" alt="">
+              </button>
+            </div>
           </div>
 
-          <div class='run-button-wrapper'>
-            <button id='run-button'>Find Path!</button>
+          
+
+          
+
+          <div class='indicators-legend'>
+            <div class="legend-item">
+              <img id='shortest-path-img' src="https://svgur.com/i/cee.svg" alt="">
+              <p>Shortest path</p>
+            </div>
+            <div class="legend-item">
+              <img src="https://svgur.com/i/cdm.svg" alt="">
+              <p>Weighted</p>
+            </div>
           </div>
         </div>
-                
 
-              
-
-        <h2 class='mazes-h2'>Mazes</h2>
         <div class="mazes-interface">
-          
+          <h2 class="mazes-h2">Mazes</h2>
           <div class="mazes">
-            <div class="maze" id='rdm'>
+            <div class="maze" id="rdm">
               <h3>recursive division maze</h3>
               <p>Create a random maze using recursion</p>
             </div>
 
-            <div class="maze" id='dfs-maze'>
+            <div class="maze" id="dfs-maze">
               <h3>DFS Maze</h3>
               <p>Create a random maze using Depth-first Search</p>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="control-div">
-          <button class="button" onclick="stateBlock()">block</button>
-          <button class="button">Weight</button>
-          <button class="button" onclick="RDM()">
-            Recursive Division Maze
-          </button>
-          <button class="button" onclick="clearBoard()">Clear Board</button>
-        </div>
+      <div class="control-div">
+        <button class="button" onclick="RDM()">Recursive Division Maze</button>
+        <button class="button" onclick="clearBoard()">Clear Board</button>
       </div>
 
       <div hidden id="no-path">
@@ -122,6 +164,10 @@
       </div>
 
       <div class="table-grid">
+        <div class='block-weight'>
+          <button class="block-button" onclick="stateBlock()">block</button>
+          <button class="weight-button">Weight</button>
+        </div>
         <table class="tabela" cellspacing="0"></table>
       </div>
     </div>

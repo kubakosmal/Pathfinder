@@ -17,19 +17,11 @@ function filterGraph(graph, blocked) {
 function instantAnimate(visited, path) {
   for (let el of visited) {
     document.getElementById(el).classList.toggle("visited");
-    gsap.to(document.getElementById(el), {
-      backgroundColor: "#BCE7FD",
-    });
   }
 
   console.log(path);
   for (let el of path) {
     document.getElementById(el).classList.add("shortest-path-node");
-
-    gsap.to(document.getElementById(el), {
-      backgroundColor: "#FFE20A",
-      borderColor: "#FFE20A",
-    });
   }
 }
 
@@ -39,6 +31,7 @@ function animateGraph(visited, path) {
 
   let vlen = visited.length;
   
+  // animate visited nodes
   for (let i = 0; i < vlen; i++) {
     setTimeout(function () {
       document.getElementById(visited[i]).classList.toggle("visited");
@@ -81,7 +74,7 @@ function animateGraph(visited, path) {
 
   let pathLen = path.length;
 
-  // if promise resolved
+  // animate path
   delay += 20;
   for (let i = 0; i < pathLen; i++) {
     setTimeout(function () {
@@ -412,8 +405,8 @@ function visualizeBfs(ROWS, COLUMNS, startNode, endNode, blockedNodes) {
 
 // dynamic pathfinding function
 function dynamicAnimate(ROWS, COLUMNS, startNode, endNode, blockedNodes) {
-  // determine algorithm
-  let choosedAlgorithm = document.getElementById("choose-algorithm").value;
+  // get the value of checked radio button
+  let choosedAlgorithm = document.querySelector('input[name="checked-algorithm"]:checked').value;
 
   // making graph
   let graph = makeGraph(ROWS, COLUMNS);

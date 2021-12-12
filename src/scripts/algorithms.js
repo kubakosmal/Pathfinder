@@ -156,12 +156,19 @@ function aStar(graph, start, end) {
 
     // current node successors
     let dests = graph[currentLowest.name];
+    console.log(dests);
+    if (dests == undefined) {
+      console.log(`I am dests of ${currentLowest.name} and im undefined`)
+    }
     let destsProps = Object.keys(dests);
 
     // for every successor
     for (let successor of destsProps) {
       // if successor is the goal
       if (successor == end) {
+        // add successor to the visited array
+        visitedAndPath.visited.push(successor);
+
         tracking[end] = currentLowest.name;
         tracking[start] = null;
 
@@ -256,7 +263,6 @@ function aStar(graph, start, end) {
           closedSet.add(newSuccessor.name);
           // add successor to tracking
           tracking[successor] = currentLowest.name;
-          console.log(newSuccessor);
         }
       }
     }

@@ -9,7 +9,7 @@ const {
 let blockedNodes = [];
 let startNode = "c5r8";
 let endNode = "c30r8";
-const ROWS = 31;
+const ROWS = 33;
 const COLUMNS = 49;
 // GLOBAL VARS
 
@@ -91,12 +91,18 @@ function changeState(clickedId) {
 let dynamicPathfinding = false;
 
 // USAGE OF APP
+window.run = function () {
+  // get the value of checked radio button
+  let choosedAlgorithm = document.querySelector('input[name="checked-algorithm"]:checked').value;
+  console.log(choosedAlgorithm)
 
-window.run = function (choosedAlgorithm) {
+
   // erase visited and shortest path classes
   let alreadyVisited = document.querySelectorAll("td");
   for (let el of alreadyVisited) {
     el.removeAttribute("style");
+    el.classList.remove('visited');
+    el.classList.remove('shortest-path-node');
   }
 
   if (choosedAlgorithm == "bfs") {
@@ -106,7 +112,7 @@ window.run = function (choosedAlgorithm) {
   }
 
   // set dynamic pathFinding to TRUE
-  dynamicPathfinding = true;
+  /* dynamicPathfinding = true; */
 };
 
 // CLEAR BOARD FUNCTION

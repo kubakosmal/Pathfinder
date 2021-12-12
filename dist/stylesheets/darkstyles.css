@@ -32,6 +32,7 @@ body {
   margin-bottom: 10%;
   display: flex;
   justify-content: center;
+  
 }
 
 .card {
@@ -71,6 +72,7 @@ body {
 .dijkstra {
   border: 2px solid rgba(0, 255, 219, .5);
   margin: 2px;
+  width: 3100px;
   
 }
 
@@ -114,6 +116,8 @@ input[type='radio'] {
   animation-timing-function: linear;
 }
 
+
+
 .astar-wrapper input[type="radio"]:checked + label > div {
   border: 3px solid rgba(255, 41, 101, 1);
   animation: scale-card .3s forwards;
@@ -137,6 +141,7 @@ input[type='radio'] {
     opacity: 1;
   }
 }
+
 
 
 .run-button-wrapper {
