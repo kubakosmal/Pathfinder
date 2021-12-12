@@ -33,13 +33,12 @@ img {
     "header"
     "main"
     "footer";
-  row-gap: 5vh;
+  row-gap: 2vh;
 }
 
 /* Header*/
 .header {
   grid-area: header;
-  border: 2px solid green;
   justify-content: space-between;
   display: flex;
   align-items: center;
@@ -50,6 +49,7 @@ img {
 }
 
 .header a {
+  align-items: center;
   justify-self: end;
   display: flex;
   justify-content: space-around;
@@ -62,6 +62,11 @@ img {
   font-size: 15px;
   font-weight: 1100;
   margin-right: 10px;
+}
+
+.header a > img {
+  width: 22px;
+  height: 22px;
 }
 
 /* Logo */
@@ -93,12 +98,11 @@ img {
   border-radius: 5px;
   background-color: rgba(15, 17, 21, 1);
   box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
-  border: 1px solid rgba(133, 150, 193, 0.1);
+  border: 2px solid rgba(133, 150, 193, 0.1);
   display: grid;
-  grid-template: 1fr / 25% auto;
+  grid-template: 1fr / 25% 1fr;
   grid-template-areas: "interface table";
   justify-content: center;
-  column-gap: 5%;
 }
 
 /* Tablet */
@@ -114,14 +118,15 @@ img {
 
 /* Interface*/
 .interface {
-  border: 2px solid black;
+  
   grid-area: interface;
   display: flex;
   flex-direction: column;
-  border: 2px solid pink;
   justify-content: flex-start;
   align-items: center;
   align-content: center;
+  height: 95%;
+  align-self: center;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -131,7 +136,9 @@ img {
   }
 }
 
+ /* Choose algorithm */
 .choose-algorithm {
+  
   align-self: center;
   display: flex;
   flex-direction: column;
@@ -145,7 +152,7 @@ img {
 }
 
 .algorithms-header {
-  font-size: 20px;
+  font-size: 18px;
   margin-bottom: 10px;
   font-weight: 300;
   font-family: Inter, sans-serif;
@@ -162,32 +169,37 @@ img {
   justify-items: center;
   align-items: center;
   margin-top: 0px;
-  background-color: rgba(0, 0, 0, 0.22);
+  
+  max-width: 100%;
   border-radius: 10px;
-  padding: 5px;
+  padding: 5px 15px 5px 15px;
+  
+  border: 1px solid rgba(133, 150, 193, 0.1);
+  /* border-bottom: 2px solid rgba(133, 150, 193, 0.1); */
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }
 
 .radio-wrapper {
   display: flex;
   align-items: center;
-  
   font-family: "Muli", sans-serif;
 }
 
 .algorithm-label {
-  opacity: .7;
+  
   border-radius: 7px;
-  border: 2px solid rgba(133, 150, 193, 0.1);
+  border: 2px solid transparent;
   display: flex;
   flex-direction: row;
-  max-width: 260px;
-  min-width: 240px;
+  max-width: 90%;
+  min-width: 220px;
   justify-content: space-between;
   align-items: center;
   margin: 8px;
   height: 50px;
   max-height: 70px;
-  box-shadow: rgba(0, 0, 0, 1) 0px 5px 15px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 3px, rgba(0, 0, 0, 0.48) 0px 1px 2px;
+  background-color: #1a1e26;
 }
 
 .dijkstra:hover {
@@ -276,27 +288,17 @@ img {
   opacity: 0;
   
 }
-/* [type="radio"]:checked ~ label {
-  opacity: 1;
-  border-color: #4062f6;
-  background-color: rgba(97, 154, 234, 0.16);
-  animation: choose .2s linear forwards;
-} */
-
-
 
 
 @keyframes choose {
   0% {
     transform: scale(1);
-    opacity: .7;
   }
   50% {
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
   100% {
-    transform: scale(1.05);
-    opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -381,7 +383,7 @@ label:before {
 }
 
 #run-button:hover {
-  border: 2px solid black;
+  border: 2px solid white;
 }
 
 #run-img {
@@ -389,31 +391,136 @@ label:before {
   height: 22px;
 }
 
+/* -Choose Algorithm */
+
+/* Mazes */
+.mazes-interface {
+  border: 2px solid red;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+.mazes-header {
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: 300;
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #f5f5f5;
+}
+
+.mazes {
+  border: 2px solid green;
+  display: flex;
+  justify-content: center;
+  
+}
+
+.maze {
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  border: 1px solid yellow;
+  margin: 10px;
+  padding: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 3px, rgba(0, 0, 0, 0.48) 0px 1px 2px;
+  background-color: rgba(26, 30, 38, 1);
+}
+
+.maze h3 {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+/* -Mazes */
+
 /* -Interface*/
 
 /* Table*/
 .table-grid {
+
   grid-area: table;
   margin: auto;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  border: 2px solid red;
-  margin: 10px;
+  padding: 10px;
+  border-left: 1px solid rgba(133, 150, 193, 0.1);
+  width: 100%;
+  
 }
 
 .block-weight {
   align-self: center;
   margin: 5px;
+  display: flex;
 }
+
+.walls-label {
+  
+  border: 1px solid transparent;
+  padding: 5px;
+  background-color: rgba(26, 30, 38, 1);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  margin-right: 3px;
+  margin-bottom: 5px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+
+
+.walls-label img {
+  width: 20px;
+  height: 20px;
+  margin-left: 6px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.weights-label {
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background-color: rgba(26, 30, 38, 1);
+  margin-left: 3px;
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  padding: 5px;
+  margin-bottom: 5px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+
+.block-weight > input[type="radio"]:checked + label > div {
+  animation: choose-weight-block .1s linear forwards;
+}
+
+@keyframes choose-weight-block {
+  0% {
+    
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    background-color: #0D63F8;
+    transform: scale(1);
+    
+  }
+}
+
 
 .tabela {
   border-radius: 2px;
   background-color: #0f1115;
-  
+  margin: 0px 30px 0px 30px;  
   border: 1px solid rgba(0, 255, 219, 1);
-  box-shadow: rgba(0, 0, 0, 0.5) 0px 54px 55px, rgba(0, 0, 0, 0.25) 0px -12px 30px, rgba(0, 0, 0, 0.25) 0px 4px 6px, rgba(0, 0, 0, 0.34) 0px 12px 13px, rgba(0, 0, 0, 0.18) 0px -3px 5px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 3px, rgba(0, 0, 0, 0.48) 0px 1px 2px;
 }
 
 td {
@@ -467,6 +574,42 @@ td:hover {
 
 .shortest-path-node {
   background-color: yellow;
+}
+
+.clear-board {
+  align-self: center;
+  margin: 5px;
+  margin-top: 7px;
+}
+
+.clear-board button {
+  border: 1px solid transparent;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3px;
+  background-color: #FF2965;
+  color: #F5F5F5;
+  font-size: 18px;
+  border-radius: 5px;
+  padding: 5px;
+  width: 140px;
+  border: 1px solid transparent;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+
+.clear-board button:hover {
+  border: 1px solid #F5F5F5;
+}
+
+.clear-board button > p {
+  margin-right: 4px;
+}
+
+.clear-board button > img {
+  width: 23px;
+  height: 23px;
 }
 
 /* -Table*

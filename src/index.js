@@ -10,7 +10,7 @@ let blockedNodes = [];
 let startNode = "c5r8";
 let endNode = "c30r8";
 const ROWS = 33;
-const COLUMNS = 49;
+const COLUMNS = 53;
 // GLOBAL VARS
 
 // MAKING GRID FIRST

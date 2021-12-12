@@ -136,10 +136,13 @@
         </div>
 
         <div class="mazes-interface">
-          <h2 class="mazes-h2">Mazes</h2>
+          <div class="mazes-header">
+            <h2>Mazes</h2>
+          </div>
+          
           <div class="mazes">
-            <div class="maze" id="rdm">
-              <h3>recursive division maze</h3>
+            <div onclick="RDM()" class="maze" id="rdm">
+              <h3>Recursive Division</h3>
               <p>Create a random maze using recursion</p>
             </div>
 
@@ -151,11 +154,6 @@
         </div>
       </div>
 
-      <div class="control-div">
-        <button class="button" onclick="RDM()">Recursive Division Maze</button>
-        <button class="button" onclick="clearBoard()">Clear Board</button>
-      </div>
-
       <div hidden id="no-path">
         <h4>! There's no possible path.</h4>
         <h5>
@@ -165,10 +163,28 @@
 
       <div class="table-grid">
         <div class='block-weight'>
-          <button class="block-button" onclick="stateBlock()">block</button>
-          <button class="weight-button">Weight</button>
+          <input checked id='walls' type="radio" name="walls-weights" id="">
+          <label for="walls" id='walls-label-id'>
+            <div class="walls-label wbl">
+              <p>Walls</p>
+              <img src="https://svgur.com/i/cm5.svg" alt="">
+            </div>
+          </label>
+
+          <input id='weights' type="radio" name="walls-weights" id="">
+          <label for="weights">
+            <div class="weights-label wbl">
+              <p>Weights</p>
+            </div>
+          </label>
         </div>
         <table class="tabela" cellspacing="0"></table>
+        <div class="clear-board">
+          <button class="button" onclick="clearBoard()">
+            <p>Clear Board</p>
+            <img src="https://svgur.com/i/ckg.svg" alt="">
+          </button>
+        </div>
       </div>
     </div>
   </div>
