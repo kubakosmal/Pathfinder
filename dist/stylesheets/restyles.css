@@ -28,12 +28,12 @@ img {
   width: 90%;
   margin: auto;
   display: grid;
-  grid-template: auto auto / 1fr;
+  grid-template: auto auto auto / 1fr;
   grid-template-areas:
     "header"
     "main"
     "footer";
-  row-gap: 2vh;
+  height: 100%;
 }
 
 /* Header*/
@@ -42,10 +42,8 @@ img {
   justify-content: space-between;
   display: flex;
   align-items: center;
-  margin: auto;
-  padding-top: 20px;
-  padding-bottom: 20px;
   width: 100%;
+  height: auto;
 }
 
 .header a {
@@ -61,7 +59,7 @@ img {
   background-color: #0d63f8;
   font-size: 15px;
   font-weight: 1100;
-  margin-right: 10px;
+  
 }
 
 .header a > img {
@@ -83,8 +81,9 @@ img {
 }
 
 .logo p {
-  color: white;
+  color: #f5f5f5;
   font-size: 45px;
+  font-weight: 600;
 }
 /* -Logo */
 /* -Header*/
@@ -118,14 +117,14 @@ img {
 
 /* Interface*/
 .interface {
-  
   grid-area: interface;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   align-content: center;
-  height: 95%;
+  height: 100%;
+  
   align-self: center;
 }
 
@@ -138,7 +137,6 @@ img {
 
  /* Choose algorithm */
 .choose-algorithm {
-  
   align-self: center;
   display: flex;
   flex-direction: column;
@@ -149,6 +147,7 @@ img {
   margin-bottom: 20px;
   width: 100%;
   border-bottom: 1px solid rgba(133, 150, 193, 0.1);
+  min-height: 50%;
 }
 
 .algorithms-header {
@@ -169,24 +168,24 @@ img {
   justify-items: center;
   align-items: center;
   margin-top: 0px;
-  
+  max-height: 100%;
   max-width: 100%;
   border-radius: 10px;
   padding: 5px 15px 5px 15px;
-  
-  border: 1px solid rgba(133, 150, 193, 0.1);
+  border-right: 2px solid rgba(133, 150, 193, 0.1);
+  border-bottom: 2px solid rgba(133, 150, 193, 0.1);
   /* border-bottom: 2px solid rgba(133, 150, 193, 0.1); */
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+  box-shadow: rgba(0, 0, 0, 0.60) 3.4px 3.4px 4.2px;
 }
 
 .radio-wrapper {
   display: flex;
   align-items: center;
   font-family: "Muli", sans-serif;
+  
 }
 
 .algorithm-label {
-  
   border-radius: 7px;
   border: 2px solid transparent;
   display: flex;
@@ -203,7 +202,7 @@ img {
 }
 
 .dijkstra:hover {
-  position: relative;
+  
   opacity: 1;
   border: 2px solid #00ffdb;
   z-index: 1;
@@ -248,15 +247,15 @@ img {
   align-items: center;
   align-items: center;
   justify-content: space-around;
-  font-size: 20px;
+  font-size: 18px;
   margin-left: 5%;
   justify-self: center;
   font-weight: 500;
 }
 
 .algorithm-icon {
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   margin-right: 8px;
 }
 
@@ -264,14 +263,15 @@ img {
   display: flex;
   justify-content: space-between;
   font-size: 15px;
+  z-index: 2;
 }
 .indicator {
   padding: 5px;
 }
 
 .indicator img {
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   margin: 2px;
 }
 
@@ -441,22 +441,20 @@ label:before {
 
 /* Table*/
 .table-grid {
-
   grid-area: table;
   margin: auto;
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
-  padding: 10px;
   border-left: 1px solid rgba(133, 150, 193, 0.1);
   width: 100%;
-  
+  height: 100%;
 }
 
 .block-weight {
   align-self: center;
   margin: 5px;
+  margin-top: 1%;
   display: flex;
 }
 
@@ -516,17 +514,18 @@ label:before {
 
 
 .tabela {
+  width: 87%;
+  height: 95%;
   border-radius: 2px;
   background-color: #0f1115;
-  margin: 0px 30px 0px 30px;  
-  border: 1px solid rgba(0, 255, 219, 1);
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 3px, rgba(0, 0, 0, 0.48) 0px 1px 2px;
+  border: 1px solid rgba(0, 255, 219, .9);
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }
 
 td {
   cursor: cell;
-  width: 21px;
-  height: 21px;
+  width: 19px;
+  height: 19px;
   border: 1px solid rgba(0, 255, 219, 0.1);
   background-color: #0f1115;
 }
@@ -597,6 +596,7 @@ td:hover {
   width: 140px;
   border: 1px solid transparent;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  z-index: 1;
 }
 
 .clear-board button:hover {

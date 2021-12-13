@@ -9,9 +9,16 @@ const {
 let blockedNodes = [];
 let startNode = "c5r8";
 let endNode = "c30r8";
-const ROWS = 33;
-const COLUMNS = 53;
+let ROWS = 33;
+let COLUMNS = 51;
+const CELLSIZE = 19;
 // GLOBAL VARS
+
+// CALCULATING NUMBER OF CELLS
+let cellQuantity = control.calculateCellQuantity(CELLSIZE);
+COLUMNS = cellQuantity[0];
+ROWS = cellQuantity[1];
+// END OF CALCULATING
 
 // MAKING GRID FIRST
 control.makeGrid(ROWS, COLUMNS);

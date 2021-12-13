@@ -441,6 +441,14 @@ function disableButtons(timeoutTime) {
   }
 }
 
+function calculateCellQuantity(cellSize) {
+  let containerWidth = document.querySelector('.tabela').offsetWidth;
+  let containerHeight = document.querySelector('.tabela').offsetHeight;
+  let numOfCols = Math.floor(containerWidth / cellSize);
+  let numOfRows = Math.floor(containerHeight / cellSize);
+  return [numOfCols, numOfRows];
+}
+
 module.exports = {
   filterGraph,
   animateGraph,
@@ -452,4 +460,5 @@ module.exports = {
   visualizeAstar,
   visualizeBfs,
   dynamicAnimate,
+  calculateCellQuantity
 };
