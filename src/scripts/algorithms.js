@@ -296,27 +296,20 @@ function dfsMaze(graph) {
 
   // add first node to the open array
   open.push(start);
+  console.log(start);
+  console.log('graph below')
   console.log(graph);
   // while there's at least one unvisited node
   while (open.length > 0) {
     // pop first item from an open array
     let currentNode = open.pop();
     let neighbors = graph[currentNode];
-    let nextNode;
-
-    if (neighbors != undefined) {
-      let pathNode = getRandomInt(0, neighbors.length);
-      for (let i = 0; i < neighbors.length; i++) {
-        if (i == pathNode) {
-          open.push(neighbors[i]);
-          closed.add(neighbors[i]);
-          visitedAndBlocked.visited.push(neighbors[i]);
-        }
+    
+    for (let el of neighbors) {
+      if (!closed.has(el)) {
+        
       }
     }
-
-    
-    
   }
   return visitedAndBlocked;
 }
