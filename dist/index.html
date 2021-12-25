@@ -36,77 +36,104 @@
             <h2>Algorithms</h2>
           </div>
 
-          <div class="algorithms-radio">
-            <div class="radio-wrapper dijkstra-wrapper">
-              <input
-                type="radio"
-                value="dijkstra"
-                id="dijkstra"
-                name="checked-algorithm"
-              />
+          <div class="algorithms-radio-wrapper">
+            <div class="algorithms-radio">
+              <div class="radio-wrapper dijkstra-wrapper">
+                <input
+                  type="radio"
+                  value="dijkstra"
+                  id="dijkstra"
+                  name="checked-algorithm"
+                />
+                
+                
+                <label for="dijkstra" class='algorithm-label dijkstra'>
+                  <div class="algorithm-name">
+                    <img class='algorithm-icon' src="https://svgur.com/i/ci4.svg" alt="">
+                    <p>Dijkstra</p>
+                  </div>
+                  <div class='indicators'>
+                    <div class="indicator">
+                      <img src="https://svgur.com/i/cee.svg" alt="">
+                    </div>
+                    <div class="indicator">
+                      <img src="https://svgur.com/i/cdm.svg" alt="">
+                    </div>
+                  </div>
+                </label>
+              </div>
+  
+              <div class="radio-wrapper astar-wrapper">
+                <input
+                  type="radio"
+                  value="astar"
+                  id="astar"
+                  name="checked-algorithm"
+                  checked="true"
+                />
+                <label for="astar" class='algorithm-label astar'>
+                  <div class="algorithm-name">
+                    <img class="algorithm-icon" src="https://svgur.com/i/cjo.svg" alt="">
+                    <p>A* Search</p>
+                  </div>
+                  <div class='indicators'>
+                    <div class="indicator">
+                      <img src="https://svgur.com/i/cee.svg" alt="">
+                    </div>
+                    <div class="indicator">
+                      <img src="https://svgur.com/i/cdm.svg" alt="">
+                    </div>
+                  </div>
+                </label>
+              </div>
+  
+              <div class="radio-wrapper bfs-wrapper">
+                <input
+                  type="radio"
+                  value="bfs"
+                  id="bfs"
+                  name="checked-algorithm"
+                />
+                <label for="bfs" class='algorithm-label bfs'>
+                  <div class="algorithm-name">
+                    <img class='algorithm-icon' src="https://svgur.com/i/ckY.svg" alt="">
+                    <p>Breadth-first</p>
+                  </div>
+                  <div class='indicators'>
+                    <div class="indicator">
+                      <img src="https://svgur.com/i/cee.svg" alt="">
+                    </div>
+                    <div class="indicator">
+                      <img src="https://svgur.com/i/cdm.svg" alt="">
+                    </div>
+                  </div>
+                </label>
+              </div>
+  
+  
+              <div class="radio-wrapper bfs-wrapper">
+                <input
+                  type="radio"
+                  value="dfs"
+                  id="dfs"
+                  name="checked-algorithm"
+                />
+                <label for="dfs" class='algorithm-label dfs'>
+                  <div class="algorithm-name">
+                    <img class='algorithm-icon' src="http://svgur.com/i/cy8.svg" alt="">
+                    <p>Depth-first</p>
+                  </div>
+                  <div class='indicators'>
+                    <div class="indicator">
+                      <img src="https://svgur.com/i/cee.svg" alt="">
+                    </div>
+                    <div class="indicator">
+                      <img src="https://svgur.com/i/cdm.svg" alt="">
+                    </div>
+                  </div>
+                </label>
+              </div>
               
-              
-              <label for="dijkstra" class='algorithm-label dijkstra'>
-                <div class="algorithm-name">
-                  <img class='algorithm-icon' src="https://svgur.com/i/ci4.svg" alt="">
-                  <p>Dijkstra</p>
-                </div>
-                <div class='indicators'>
-                  <div class="indicator">
-                    <img src="https://svgur.com/i/cee.svg" alt="">
-                  </div>
-                  <div class="indicator">
-                    <img src="https://svgur.com/i/cdm.svg" alt="">
-                  </div>
-                </div>
-              </label>
-            </div>
-
-            <div class="radio-wrapper astar-wrapper">
-              <input
-                type="radio"
-                value="astar"
-                id="astar"
-                name="checked-algorithm"
-                checked="true"
-              />
-              <label for="astar" class='algorithm-label astar'>
-                <div class="algorithm-name">
-                  <img class="algorithm-icon" src="https://svgur.com/i/cjo.svg" alt="">
-                  <p>A*</p>
-                </div>
-                <div class='indicators'>
-                  <div class="indicator">
-                    <img src="https://svgur.com/i/cee.svg" alt="">
-                  </div>
-                  <div class="indicator">
-                    <img src="https://svgur.com/i/cdm.svg" alt="">
-                  </div>
-                </div>
-              </label>
-            </div>
-
-            <div class="radio-wrapper bfs-wrapper">
-              <input
-                type="radio"
-                value="bfs"
-                id="bfs"
-                name="checked-algorithm"
-              />
-              <label for="bfs" class='algorithm-label bfs'>
-                <div class="algorithm-name">
-                  <img class='algorithm-icon' src="https://svgur.com/i/ckY.svg" alt="">
-                  <p>BFS</p>
-                </div>
-                <div class='indicators'>
-                  <div class="indicator">
-                    <img src="https://svgur.com/i/cee.svg" alt="">
-                  </div>
-                  <div class="indicator">
-                    <img src="https://svgur.com/i/cdm.svg" alt="">
-                  </div>
-                </div>
-              </label>
             </div>
             <div class="run-button-wrapper">
               <button onclick='run()' id="run-button">
@@ -115,7 +142,7 @@
               </button>
             </div>
           </div>
-
+          
           
 
           
@@ -141,11 +168,13 @@
             <div onclick="RDM()" class="maze" id="rdm">
               <h3>Recursive Division</h3>
               <p>Create a random maze using recursion</p>
+              <img src="http://svgur.com/i/cun.svg" alt="">
             </div>
 
-            <div class="maze" id="dfs-maze">
-              <h3>DFS Maze</h3>
-              <p>Create a random maze using Depth-first Search</p>
+            <div onclick="RDM()" class="maze" id="rdm">
+              <h3>Random</h3>
+              <p>Create a random maze</p>
+              <img src="http://svgur.com/i/cvY.svg" alt="">
             </div>
           </div>
         </div>
@@ -160,7 +189,7 @@
 
       <div class="table-grid">
         <div class='block-weight'>
-          <input checked id='walls' type="radio" name="walls-weights" id="">
+          <input checked id='walls' type="radio" name="walls-weights" id="" value="walls">
           <label for="walls" id='walls-label-id'>
             <div class="walls-label wbl">
               <p>Walls</p>
@@ -168,7 +197,7 @@
             </div>
           </label>
 
-          <input id='weights' type="radio" name="walls-weights" id="">
+          <input id='weights' type="radio" name="walls-weights" id="" value="weights">
           <label for="weights">
             <div class="weights-label wbl">
               <p>Weights</p>

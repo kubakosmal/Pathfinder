@@ -158,7 +158,7 @@ function aStar(graph, start, end) {
     let dests = graph[currentLowest.name];
     console.log(dests);
     if (dests == undefined) {
-      console.log(`I am dests of ${currentLowest.name} and im undefined`)
+      console.log(`I am dests of ${currentLowest.name} and im undefined`);
     }
     let destsProps = Object.keys(dests);
 
@@ -275,11 +275,11 @@ function aStar(graph, start, end) {
   }
 }
 
-// dfs algorithm
+
 function dfsMaze(graph) {
   function getRandomInt(min, max) {
     return min + Math.floor(Math.random() * (max - min + 1));
-}
+  }
 
   // starting and end values of a graph
   let start = Object.keys(graph)[0];
@@ -297,25 +297,144 @@ function dfsMaze(graph) {
   // add first node to the open array
   open.push(start);
   console.log(start);
-  console.log('graph below')
+  console.log("graph below");
   console.log(graph);
   // while there's at least one unvisited node
   while (open.length > 0) {
     // pop first item from an open array
     let currentNode = open.pop();
     let neighbors = graph[currentNode];
-    
+
     for (let el of neighbors) {
       if (!closed.has(el)) {
-        
       }
     }
   }
   return visitedAndBlocked;
 }
 
+// dfs algorithm
+function dfs(graph, start, end) {
+  let open = new Array();
+  let closed = new Set();
+  let visitedAndPath = {
+    visited: [],
+    path: [],
+  };
+
+  function search(node) {
+    closed.add(node);
+    visitedAndPath.visited.push(node);
+    if (node == end) {
+      return visitedAndPath;
+    } else {
+      for (let el of graph[node]) {
+        if (!closed.has(el)) {
+          return search(el);
+        }
+      }
+    }
+  }
+
+  search(start);
+
+  return visitedAndPath;
+
+  /*   open.push(start);
+
+  while(open.length > 0) {
+    let current = open.shift();
+
+    if (current == end) {
+      console.log('siema')
+      visitedAndPath.visited.push(current);
+      visitedAndPath.path =  visitedAndPath.visited;
+      return visitedAndPath;
+    } else {
+      for (let el of graph[current]) {
+        if (!closed.has(el)) {
+          closed.add(el);
+          open.unshift(el);
+        }
+      }
+      
+    }
+    closed.add(current);
+    visitedAndPath.visited.push(current);
+  } */
+}
+
+// dijkstra algorithm
+function dijkstra(graph, start, end) {
+  // object containing visited and path to return
+  let visitedAndPath = {
+    visited: [],
+    path: [],
+  };
+
+  // set of already visited nodes
+  let visited = new Set();
+
+  // queue of nodes to check
+  let queue = [];
+
+  // track which node called which
+  let tracking = {};
+
+  // add start node to queue
+  queue.push(start);
+
+  // counter to set timeout
+  let counter = 1;
+
+  // while there are nodes in queue
+  while (queue.length > 0) {
+    // current node
+    let curr = queue.shift();
+    // current node destinatiuons
+    let dests = graph[curr];
+
+    // add to visited obj
+    visitedAndPath.visited.push(curr);
+
+    // add visited
+    visited.add(curr);
+
+    // if end is reached
+    if (curr == end) {
+      console.log("found!");
+      let path = [];
+      let trackedNode = end;
+
+      while (trackedNode != null) {
+        path.unshift(trackedNode);
+        trackedNode = tracking[trackedNode];
+      }
+
+      visitedAndPath.path = path;
+
+      return visitedAndPath;
+    }
+
+    // if not
+    else {
+      for (let node of dests) {
+        if (!visited.has(node)) {
+          tracking[node] = curr;
+          queue.push(node);
+
+          // add to visited to not check twice the node
+          visited.add(node);
+        }
+      }
+    }
+  }
+}
+
 module.exports = {
   bfs,
   aStar,
   dfsMaze,
+  dfs,
+  dijkstra,
 };

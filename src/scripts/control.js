@@ -30,7 +30,7 @@ function animateGraph(visited, path) {
   let delay = 1;
 
   let vlen = visited.length;
-  
+
   // animate visited nodes
   for (let i = 0; i < vlen; i++) {
     setTimeout(function () {
@@ -334,12 +334,15 @@ function makeWeightedGraph(rows, cols) {
   return graph;
 }
 
-function filterWeightedGraph(graph, blocked) {
+function filterWeightedGraph(graph, blocked, weightNodes) {
   for (let el in graph) {
     // filter from properties
     for (let le in graph[el]) {
       if (blocked.includes(le)) {
         delete graph[el][le];
+      }
+      if (weightNodes.includes(le)) {
+        graph[el][le].weight = 2;
       }
     }
 
@@ -403,10 +406,64 @@ function visualizeBfs(ROWS, COLUMNS, startNode, endNode, blockedNodes) {
   }
 }
 
+// visualize DFS function
+function visualizeDfs(ROWS, COLUMNS, startNode, endNode, blockedNodes) {
+  let graph = makeGraph(ROWS, COLUMNS);
+
+  filterGraph(graph, blockedNodes);
+
+  let ecie = algorithms.dfs(graph, startNode, endNode);
+
+  console.log(ecie);
+
+  // if there's no shortest path
+  if (typeof ecie === "undefined") {
+    document.getElementById("no-path").removeAttribute("hidden");
+  }
+  // if everything went good
+  else {
+    document.getElementById("no-path").setAttribute("hidden", "true");
+    animateGraph(ecie.visited, ecie.path);
+  }
+}
+
+// visualize Dijkstra function
+function visualizeDijkstra(
+  ROWS,
+  COLUMNS,
+  startNode,
+  endNode,
+  blockedNodes,
+  weightNodes
+) {
+  // making graph
+  let graph = makeWeightedGraph(ROWS, COLUMNS);
+
+  // filtering graph
+  filterWeightedGraph(graph, blockedNodes, weightNodes);
+
+  // finding shortest path
+  let ecie = algorithms.dijkstra(graph, startNode, endNode);
+
+  console.log(ecie);
+
+  // if there's no shortest path
+  if (typeof ecie === "undefined") {
+    document.getElementById("no-path").removeAttribute("hidden");
+  }
+  // if everything went good
+  else {
+    document.getElementById("no-path").setAttribute("hidden", "true");
+    animateGraph(ecie.visited, ecie.path);
+  }
+}
+
 // dynamic pathfinding function
 function dynamicAnimate(ROWS, COLUMNS, startNode, endNode, blockedNodes) {
   // get the value of checked radio button
-  let choosedAlgorithm = document.querySelector('input[name="checked-algorithm"]:checked').value;
+  let choosedAlgorithm = document.querySelector(
+    'input[name="checked-algorithm"]:checked'
+  ).value;
 
   // making graph
   let graph = makeGraph(ROWS, COLUMNS);
@@ -426,24 +483,24 @@ function dynamicAnimate(ROWS, COLUMNS, startNode, endNode, blockedNodes) {
 
 function disableButtons(timeoutTime) {
   timeoutTime += 20;
-  let buttons = document.querySelectorAll('.button');
+  let buttons = document.querySelectorAll(".button");
 
   for (let el of buttons) {
     el.disabled = true;
-    el.classList.toggle('inactive');
+    el.classList.toggle("inactive");
   }
 
   for (let el of buttons) {
     setTimeout(() => {
       el.disabled = false;
-      el.classList.toggle('inactive');
+      el.classList.toggle("inactive");
     }, 25 * timeoutTime);
   }
 }
 
 function calculateCellQuantity(cellSize) {
-  let containerWidth = document.querySelector('.tabela').offsetWidth;
-  let containerHeight = document.querySelector('.tabela').offsetHeight;
+  let containerWidth = document.querySelector(".tabela").offsetWidth;
+  let containerHeight = document.querySelector(".tabela").offsetHeight;
   let numOfCols = Math.floor(containerWidth / cellSize);
   let numOfRows = Math.floor(containerHeight / cellSize);
   return [numOfCols, numOfRows];
@@ -459,6 +516,8 @@ module.exports = {
   filterWeightedGraph,
   visualizeAstar,
   visualizeBfs,
+  visualizeDfs,
+  visualizeDijkstra,
   dynamicAnimate,
-  calculateCellQuantity
+  calculateCellQuantity,
 };
