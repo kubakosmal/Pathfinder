@@ -1,6 +1,8 @@
 const { gsap } = require("gsap/dist/gsap");
 const algorithms = require("./algorithms.js");
 const { aStar } = require("./astar.js");
+const { animate } = require("motion");
+console.log(animate);
 
 // graph filtering function
 function filterGraph(graph, blocked) {
@@ -17,10 +19,12 @@ function filterGraph(graph, blocked) {
 function instantAnimate(visited, path) {
   for (let el of visited) {
     document.getElementById(el).classList.toggle("visited");
+    document.getElementById(el).classList.toggle("already");
   }
 
   console.log(path);
   for (let el of path) {
+    document.getElementById(el).classList.toggle("visited");
     document.getElementById(el).classList.add("shortest-path-node");
   }
 }
@@ -33,30 +37,18 @@ function animateGraph(visited, path) {
 
   // animate visited nodes
   for (let i = 0; i < vlen; i++) {
+    document.getElementById(visited[i]).classList.add("already");
     setTimeout(function () {
-      document.getElementById(visited[i]).classList.toggle("visited");
-
       //gsap
-      gsap
-        .timeline()
-        .fromTo(
-          document.getElementById(visited[i]),
-          {
-            scale: 0.3,
-            borderRadius: "100%",
-            backgroundColor: "#B0DB43",
-          },
-          {
-            scale: 1.1,
-            borderRadius: "25%",
-            backgroundColor: "#12EAEA",
-          }
-        )
-        .to(document.getElementById(visited[i]), {
-          scale: 1,
-          borderRadius: "0%",
-          backgroundColor: "#BCE7FD",
-        });
+      animate(
+        document.getElementById(visited[i]),
+        {
+          transform: ["scale(.3)", "scale(1)"],
+          background: ["#1a1e26", "#FF1231", "#31A6FA"],
+          borderRadius: ["100%", "0%"],
+        },
+        { duration: 1 }
+      );
 
       // animejs
       /*  anime({
@@ -67,7 +59,7 @@ function animateGraph(visited, path) {
         easing: "linear",
         duration: 1500,
       }); */
-    }, 15 * delay);
+    }, 25 * delay);
 
     delay++;
   }
@@ -77,23 +69,20 @@ function animateGraph(visited, path) {
   // animate path
   delay += 20;
   for (let i = 0; i < pathLen; i++) {
+    document.getElementById(path[i]).classList.add("already");
     setTimeout(function () {
       let currentVisited = document.getElementById(path[i]);
-      currentVisited.classList.toggle("visited");
-      currentVisited.classList.toggle("shortest-path-node");
 
-      gsap
-        .timeline()
-        .to(document.getElementById(path[i]), {
-          scale: 1.1,
-          backgroundColor: "#D86E8A",
-          borderColor: "#D86E8A",
-        })
-        .to(document.getElementById(path[i]), {
-          scale: 1,
-          backgroundColor: "#FFE20A",
-          borderColor: "#FFE20A",
-        });
+      animate(
+        document.getElementById(path[i]),
+        {
+          transform: ["scale(.3)", "scale(1)"],
+          /* opacity: [0.1, 1], */
+          backgroundColor: ["#31A6FA", "#FF2965", "#FFF208"],
+          borderRadius: ["100%", "0%"],
+        },
+        { duration: 0.5 }
+      );
 
       // animejs
       /* anime({
@@ -103,7 +92,7 @@ function animateGraph(visited, path) {
         borderColor: ['#D86E8A', '#FFE20A'],
         duration: 1500
       }) */
-    }, 15 * delay);
+    }, 25 * delay);
 
     delay += 2;
   }
@@ -342,6 +331,7 @@ function filterWeightedGraph(graph, blocked, weightNodes) {
         delete graph[el][le];
       }
       if (weightNodes.includes(le)) {
+        console.log(le);
         graph[el][le].weight = 2;
       }
     }
@@ -354,12 +344,19 @@ function filterWeightedGraph(graph, blocked, weightNodes) {
 }
 
 // visualize aStar function
-function visualizeAstar(ROWS, COLUMNS, startNode, endNode, blockedNodes) {
+function visualizeAstar(
+  ROWS,
+  COLUMNS,
+  startNode,
+  endNode,
+  blockedNodes,
+  weightNodes
+) {
   // making graph
   let graph = makeWeightedGraph(ROWS, COLUMNS);
 
   // filtering graph
-  filterWeightedGraph(graph, blockedNodes);
+  filterWeightedGraph(graph, blockedNodes, weightNodes);
 
   // finding shortest path
   let ecie = algorithms.aStar(graph, startNode, endNode);
@@ -375,6 +372,7 @@ function visualizeAstar(ROWS, COLUMNS, startNode, endNode, blockedNodes) {
     document.getElementById("no-path").setAttribute("hidden", "true");
 
     // animate graph
+    
     let timeoutTime = animateGraph(ecie.visited, ecie.path);
 
     // disable buttons for running time
@@ -459,7 +457,16 @@ function visualizeDijkstra(
 }
 
 // dynamic pathfinding function
-function dynamicAnimate(ROWS, COLUMNS, startNode, endNode, blockedNodes) {
+function dynamicAnimate(
+  ROWS,
+  COLUMNS,
+  startNode,
+  endNode,
+  blockedNodes,
+  weightNodes
+) {
+  console.log("INSIDE DYNAMIC FUNCTION, BLOCKEDNODES BELOW");
+  console.log(blockedNodes)                            
   // get the value of checked radio button
   let choosedAlgorithm = document.querySelector(
     'input[name="checked-algorithm"]:checked'
@@ -467,16 +474,18 @@ function dynamicAnimate(ROWS, COLUMNS, startNode, endNode, blockedNodes) {
 
   // making graph
   let graph = makeGraph(ROWS, COLUMNS);
+  let weightedGraph = makeWeightedGraph(ROWS, COLUMNS);
 
   // filtering graph
   filterGraph(graph, blockedNodes);
+  filterWeightedGraph(weightedGraph, blockedNodes, weightNodes);
 
   if (choosedAlgorithm == "bfs") {
     // finding shortest path
     let visitedAndPath = algorithms.bfs(graph, startNode, endNode);
     instantAnimate(visitedAndPath.visited, visitedAndPath.path);
   } else if (choosedAlgorithm == "astar") {
-    let visitedAndPath = algorithms.aStar(graph, startNode, endNode);
+    let visitedAndPath = algorithms.aStar(weightedGraph, startNode, endNode);
     instantAnimate(visitedAndPath.visited, visitedAndPath.path);
   }
 }
@@ -506,6 +515,15 @@ function calculateCellQuantity(cellSize) {
   return [numOfCols, numOfRows];
 }
 
+function removeNodeStyles() {
+  let allNodesToErase = document.querySelectorAll(".already");
+  console.log("NODES TO ERASE BELOW");
+  console.log(allNodesToErase);
+  for (let el of allNodesToErase) {
+    el.removeAttribute("style");
+    el.removeAttribute("class");
+  }
+}
 module.exports = {
   filterGraph,
   animateGraph,
@@ -520,4 +538,5 @@ module.exports = {
   visualizeDijkstra,
   dynamicAnimate,
   calculateCellQuantity,
+  removeNodeStyles,
 };

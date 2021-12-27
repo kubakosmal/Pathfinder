@@ -4,7 +4,6 @@ const {
   lightRecursiveDivision,
 } = require("./scripts/lightRecursiveDivision.js");
 
-
 // GLOBAL VARS
 let blockedNodes = [];
 let weightNodes = [];
@@ -31,7 +30,7 @@ function setInitialValues() {
   let setInitialEnd = document.getElementById(endNode);
   setInitialStart.classList.toggle("start");
   setInitialEnd.classList.toggle("end");
-  blockedNodes = [];
+  /* blockedNodes = []; */
 }
 setInitialValues();
 // END OF SET INITAL FUNCTION
@@ -101,30 +100,48 @@ let dynamicPathfinding = false;
 // USAGE OF APP
 window.run = function () {
   // get the value of checked radio button
-  let choosedAlgorithm = document.querySelector('input[name="checked-algorithm"]:checked').value;
-  console.log(choosedAlgorithm)
-
+  let choosedAlgorithm = document.querySelector(
+    'input[name="checked-algorithm"]:checked'
+  ).value;
+  console.log(choosedAlgorithm);
 
   // erase visited and shortest path classes
   let alreadyVisited = document.querySelectorAll("td");
   for (let el of alreadyVisited) {
     el.removeAttribute("style");
-    el.classList.remove('visited');
-    el.classList.remove('shortest-path-node');
+    el.classList.remove("visited");
+    el.classList.remove("shortest-path-node");
   }
 
   if (choosedAlgorithm == "bfs") {
     control.visualizeBfs(ROWS, COLUMNS, startNode, endNode, blockedNodes);
   } else if (choosedAlgorithm == "astar") {
-    control.visualizeAstar(ROWS, COLUMNS, startNode, endNode, blockedNodes);
+    control.visualizeAstar(
+      ROWS,
+      COLUMNS,
+      startNode,
+      endNode,
+      blockedNodes,
+      weightNodes,
+      dynamicPathfinding
+    );
   } else if (choosedAlgorithm == "dfs") {
     control.visualizeDfs(ROWS, COLUMNS, startNode, endNode, blockedNodes);
   } else if (choosedAlgorithm == "dijkstra") {
-    control.visualizeDijkstra(ROWS, COLUMNS, startNode, endNode, blockedNodes, weightNodes);
+    console.time("control.visualizeDijkstra");
+    control.visualizeDijkstra(
+      ROWS,
+      COLUMNS,
+      startNode,
+      endNode,
+      blockedNodes,
+      weightNodes
+    );
+    console.timeEnd("control.visualizeDijkstra");
   }
 
   // set dynamic pathFinding to TRUE
-  /* dynamicPathfinding = true; */
+  dynamicPathfinding = true;
 };
 
 // CLEAR BOARD FUNCTION
@@ -139,6 +156,7 @@ window.clearBoard = function () {
 
   // set dynamic pathFinding to FALSE
   dynamicPathfinding = false;
+  blockedNodes = [];
 
   // make new graph
 };
@@ -154,12 +172,13 @@ let newWeights = new Set();
 let newUnblockedSet = new Set();
 let newUnblockedWeights = new Set();
 
-
 // determine if first touch was on blocked or unlocked
 let lock = true;
 
 let clickedOnStart = false;
 let clickedOnEnd = false;
+
+dynamicPathfinding = false;
 
 window.mouseDown = function (elementId) {
   isMouseDown = true;
@@ -167,8 +186,10 @@ window.mouseDown = function (elementId) {
   let currentlyClicked = document.getElementById(elementId);
 
   // if currently clicked has class of 'blocked'
-  if (currentlyClicked.classList.contains("blocked") ||
-  currentlyClicked.classList.contains("weight"))  {
+  if (
+    currentlyClicked.classList.contains("blocked") ||
+    currentlyClicked.classList.contains("weight")
+  ) {
     lock = false;
   } else {
     lock = true;
@@ -186,30 +207,35 @@ window.mouseUp = function () {
   isMouseDown = false;
 
   // update blocked/weight nodes
-  let wallOrWeight = document.querySelector('input[name="walls-weights"]:checked').value;
+  let wallOrWeight = document.querySelector(
+    'input[name="walls-weights"]:checked'
+  ).value;
 
   if (wallOrWeight == "walls") {
     // adding
-  let newBlockedNodes = Array.from(newBlockedSet);
-  blockedNodes = blockedNodes.concat(newBlockedNodes);
-  newBlockedSet = new Set();
+    let newBlockedNodes = Array.from(newBlockedSet);
+    blockedNodes = blockedNodes.concat(newBlockedNodes);
+    newBlockedSet = new Set();
 
-  // deleting
-  let newUnblockedNodes = Array.from(newUnblockedSet);
-  blockedNodes = blockedNodes.filter(
-    (item) => !newUnblockedNodes.includes(item)
-  );
-  newUnblockedSet = new Set();
+    // deleting
+    let newUnblockedNodes = Array.from(newUnblockedSet);
+    blockedNodes = blockedNodes.filter(
+      (item) => !newUnblockedNodes.includes(item)
+    );
+    newUnblockedSet = new Set();
   } else if (wallOrWeight == "weights") {
-    // adding 
+    // adding
     let newWeightsToAdd = Array.from(newWeights);
     weightNodes = weightNodes.concat(newWeightsToAdd);
+    newWeights = new Set();
 
-    // deleting 
+    // deleting
     let newWeightsToRemove = Array.from(newUnblockedWeights);
-    weightNodes = weightNodes.filter(item => !newUnblockedWeights.includes(item));
+    weightNodes = weightNodes.filter(
+      (item) => !newWeightsToRemove.includes(item)
+    );
+    newUnblockedWeights = new Set();
   }
-
 
   // !!!
   clickedOnStart = false;
@@ -224,7 +250,9 @@ window.mouseMoved = function (elementId) {
     // if clicked on blocked, empty or weight
     if (!clickedOnStart && !clickedOnEnd) {
       // get value from walls/weights radio
-      let wallOrWeight = document.querySelector('input[name="walls-weights"]:checked').value;
+      let wallOrWeight = document.querySelector(
+        'input[name="walls-weights"]:checked'
+      ).value;
       if (wallOrWeight == "walls") {
         // if its not start or end element
         if (
@@ -239,10 +267,11 @@ window.mouseMoved = function (elementId) {
             newUnblockedSet.add(elementId);
           }
         }
-      }
-      else if (wallOrWeight == "weights") {
-        if (!currentlyTouched.classList.contains("start") &&
-        !currentlyTouched.classList.contains("end")) {
+      } else if (wallOrWeight == "weights") {
+        if (
+          !currentlyTouched.classList.contains("start") &&
+          !currentlyTouched.classList.contains("end")
+        ) {
           if (lock) {
             currentlyTouched.classList.add("weight");
             newWeights.add(elementId);
@@ -266,11 +295,15 @@ window.mouseMoved = function (elementId) {
         currentlyTouched.classList.add("start");
         // make currently touched new start node
         startNode = elementId;
+
+        
       }
 
       // if dynamicPathfinding true, animate instantly
       if (dynamicPathfinding == true) {
-        control.dynamicAnimate(ROWS, COLUMNS, startNode, endNode, blockedNodes);
+        control.removeNodeStyles();
+        control.dynamicAnimate(ROWS, COLUMNS, startNode, endNode, blockedNodes, weightNodes);
+        setInitialValues();
       }
     }
     // if clicked on end

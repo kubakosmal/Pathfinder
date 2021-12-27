@@ -36,7 +36,6 @@ function bfs(graph, start, end) {
 
     // if end is reached
     if (curr == end) {
-      console.log("found!");
       let path = [];
       let trackedNode = end;
 
@@ -156,7 +155,6 @@ function aStar(graph, start, end) {
 
     // current node successors
     let dests = graph[currentLowest.name];
-    console.log(dests);
     if (dests == undefined) {
       console.log(`I am dests of ${currentLowest.name} and im undefined`);
     }
@@ -228,7 +226,12 @@ function aStar(graph, start, end) {
           Math.abs(colPosition - endColPosition);
 
         // f of successor
-        let f = distance + heuristic;
+        if (graph[successor] == undefined) {
+          console.log("IM UNDEFINED");
+          console.log(successor);
+        }
+        let f =
+          (distance + heuristic) * graph[currentLowest.name][successor].weight;
 
         // succcessor obj
         let newSuccessor = {
@@ -274,7 +277,6 @@ function aStar(graph, start, end) {
     previousDirection = currentLowest.direction;
   }
 }
-
 
 function dfsMaze(graph) {
   function getRandomInt(min, max) {
@@ -382,51 +384,62 @@ function dijkstra(graph, start, end) {
   let tracking = {};
 
   // add start node to queue
-  queue.push(start);
+  queue.push({ name: start, weight: 1 });
 
-  // counter to set timeout
-  let counter = 1;
-
+  let count = 0;
   // while there are nodes in queue
   while (queue.length > 0) {
+    count++
     // current node
-    let curr = queue.shift();
-    // current node destinatiuons
-    let dests = graph[curr];
+    let curr = {
+      name: null,
+      weight: Infinity,
+    };
 
-    // add to visited obj
-    visitedAndPath.visited.push(curr);
+    // find lowest cost node
+    for (let el of queue) {
+      if (el.weight < curr.weight) {
+        curr = el;
+      }
+    }
+    // get neighbors
+    let neighbors = Object.keys(graph[curr.name]);
 
-    // add visited
-    visited.add(curr);
-
-    // if end is reached
-    if (curr == end) {
+    // if curr is the end
+    if (curr.name == end) {
       console.log("found!");
       let path = [];
       let trackedNode = end;
 
-      while (trackedNode != null) {
+      /* while (trackedNode != null) {
         path.unshift(trackedNode);
         trackedNode = tracking[trackedNode];
-      }
+      } */
 
       visitedAndPath.path = path;
-
+      console.log(count)
       return visitedAndPath;
-    }
+      
 
-    // if not
-    else {
-      for (let node of dests) {
-        if (!visited.has(node)) {
-          tracking[node] = curr;
-          queue.push(node);
-
-          // add to visited to not check twice the node
-          visited.add(node);
+    } else {
+      console.log('curr weight')
+      console.log(curr.weight);
+      for (let el of neighbors) {
+        if (!visited.has(el)) {
+          tracking[el] = curr.name;
+          
+          let newWeight = (curr.weight + 1) * graph[curr.name][el].weight;
+          if (graph[curr.name][el].weight == 1.5) {
+            console.log(`${el} is weighted. Its base weight is ${graph[curr.name][el].weight}. Its parrent weight is ${curr.weight}, thus its new weight is ${newWeight}`)
+          }
+          queue.push({name: el, weight: newWeight});
+          visited.add(el);
         }
       }
+
+      // remove currentLowest from queue
+      visitedAndPath.visited.push(curr.name);
+      queue = queue.filter((x) => x != curr);
     }
   }
 }
