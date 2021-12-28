@@ -514,18 +514,19 @@ label:before {
 
 
 .tabela {
+  
   width: 85%;
   height: 95%;
   border-radius: 2px;
   background-color: #0f1115;
-  border: 1px solid rgba(133, 150, 193, 0.1);
+  
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }
 
 td {
   cursor: cell;
-  width: 19px;
-  height: 19px;
+  width: 21px;
+  height: 21px;
   border: 1px solid rgba(0, 255, 219, 0.1);
   background-color: #0f1115;
 }
@@ -543,7 +544,7 @@ td {
 }
 
 td:hover {
-  border: 2px solid rgba(0, 255, 219, 1);
+  background-color: rgba(0, 255, 219, .2);
 }
 
 .start {
@@ -568,7 +569,8 @@ td:hover {
 }
 
 .weight {
-  background-color: red;
+  background-image: url("http://svgur.com/i/d50.svg");
+  background-size: cover;
 }
 
 .visited {
@@ -577,6 +579,10 @@ td:hover {
 
 .already {
   
+}
+
+.inactive {
+  border: 5px solid red;
 }
 
 .shortest-path-node {
