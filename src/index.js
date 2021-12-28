@@ -11,13 +11,16 @@ let startNode = "c5r8";
 let endNode = "c30r8";
 let ROWS = 33;
 let COLUMNS = 51;
-const CELLSIZE = 19;
+const CELLSIZE = 21;
 // GLOBAL VARS
 
 // CALCULATING NUMBER OF CELLS
 let cellQuantity = control.calculateCellQuantity(CELLSIZE);
 COLUMNS = cellQuantity[0];
 ROWS = cellQuantity[1];
+
+console.log(COLUMNS)
+console.log(ROWS)
 // END OF CALCULATING
 
 // MAKING GRID FIRST
@@ -28,8 +31,8 @@ control.makeGrid(ROWS, COLUMNS);
 function setInitialValues() {
   let setInitialStart = document.getElementById(startNode);
   let setInitialEnd = document.getElementById(endNode);
-  setInitialStart.classList.toggle("start");
-  setInitialEnd.classList.toggle("end");
+  setInitialStart.classList.add("start");
+  setInitialEnd.classList.add("end");
   /* blockedNodes = []; */
 }
 setInitialValues();
@@ -157,6 +160,7 @@ window.clearBoard = function () {
   // set dynamic pathFinding to FALSE
   dynamicPathfinding = false;
   blockedNodes = [];
+  weightNodes = [];
 
   // make new graph
 };
@@ -281,11 +285,19 @@ window.mouseMoved = function (elementId) {
           }
         }
       }
+
+      // if dynamicPathfinding true, animate instantly
+      if (dynamicPathfinding == true) {
+        control.removeNodeStyles();
+        control.dynamicAnimate(ROWS, COLUMNS, startNode, endNode, blockedNodes, weightNodes);
+        setInitialValues();
+        console.log(startNode);
+      }
     }
     // if clicked on start
     else if (clickedOnStart && !clickedOnEnd) {
       // if start id is different than currently clicked
-      if (startNode != elementId) {
+      if (startNode != elementId && !document.getElementById(elementId).classList.contains('blocked')) {
         // remove start class from all elements
         let cells = document.getElementsByTagName("td");
         for (let x of cells) {
@@ -309,7 +321,7 @@ window.mouseMoved = function (elementId) {
     // if clicked on end
     else if (clickedOnEnd && !clickedOnStart) {
       // if start id is different than currently clicked
-      if (endNode != elementId) {
+      if (endNode != elementId && !document.getElementById(elementId).classList.contains('blocked')) {
         let cells = document.getElementsByTagName("td");
         for (let x of cells) {
           x.classList.remove("end");
@@ -319,6 +331,13 @@ window.mouseMoved = function (elementId) {
         currentlyTouched.classList.add("end");
         // make currently touched new end node
         endNode = elementId;
+
+        // if dynamicPathfinding true, animate instantly
+      if (dynamicPathfinding == true) {
+        control.removeNodeStyles();
+        control.dynamicAnimate(ROWS, COLUMNS, startNode, endNode, blockedNodes, weightNodes);
+        setInitialValues();
+      }
       }
     }
   }

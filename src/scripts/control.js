@@ -35,6 +35,8 @@ function animateGraph(visited, path) {
 
   let vlen = visited.length;
 
+  
+
   // animate visited nodes
   for (let i = 0; i < vlen; i++) {
     document.getElementById(visited[i]).classList.add("already");
@@ -43,11 +45,13 @@ function animateGraph(visited, path) {
       animate(
         document.getElementById(visited[i]),
         {
-          transform: ["scale(.3)", "scale(1)"],
+          transform: ["scale(.5)", "scale(1.2)", 'scale(1)'],
           background: ["#1a1e26", "#FF1231", "#31A6FA"],
-          borderRadius: ["100%", "0%"],
+          borderRadius: ["100%", "25%", '0%'],
+          borderColor: ['rgba(0, 255, 219, 0.1)'],
         },
-        { duration: 1 }
+        { duration: 1,
+        easing: 'ease-out' }
       );
 
       // animejs
@@ -76,12 +80,14 @@ function animateGraph(visited, path) {
       animate(
         document.getElementById(path[i]),
         {
-          transform: ["scale(.3)", "scale(1)"],
+          transform: ["scale(1)", "scale(.3)", "scale(1)"],
           /* opacity: [0.1, 1], */
           backgroundColor: ["#31A6FA", "#FF2965", "#FFF208"],
-          borderRadius: ["100%", "0%"],
+          borderRadius: ["25%", "75%", "0%"],
+          borderColor: ["#31A6FA", "#FF2965", "#FFF208"]
         },
-        { duration: 0.5 }
+        { duration: 1,
+        easing: 'linear' }
       );
 
       // animejs
@@ -96,6 +102,21 @@ function animateGraph(visited, path) {
 
     delay += 2;
   }
+
+  // disable buttons
+  /* let buttons = document.querySelectorAll(".button");
+
+  for (let el of buttons) {
+    el.disabled = true;
+    el.classList.toggle("inactive");
+  }
+
+  for (let el of buttons) {
+    setTimeout(() => {
+      el.disabled = false;
+      el.classList.toggle("inactive");
+    }, 25 * delay);
+  } */
 
   return delay;
 }
@@ -400,8 +421,13 @@ function visualizeBfs(ROWS, COLUMNS, startNode, endNode, blockedNodes) {
   // if everything went good
   else {
     document.getElementById("no-path").setAttribute("hidden", "true");
-    animateGraph(ecie.visited, ecie.path);
+    let timeoutTime = animateGraph(ecie.visited, ecie.path);
+
+    // disable buttons for running time
+    disableButtons(timeoutTime);
   }
+
+  
 }
 
 // visualize DFS function
@@ -421,7 +447,8 @@ function visualizeDfs(ROWS, COLUMNS, startNode, endNode, blockedNodes) {
   // if everything went good
   else {
     document.getElementById("no-path").setAttribute("hidden", "true");
-    animateGraph(ecie.visited, ecie.path);
+    let timeoutTime = animateGraph(ecie.visited, ecie.path);
+    disableButtons(timeoutTime);
   }
 }
 
@@ -452,7 +479,8 @@ function visualizeDijkstra(
   // if everything went good
   else {
     document.getElementById("no-path").setAttribute("hidden", "true");
-    animateGraph(ecie.visited, ecie.path);
+    let timeoutTime = animateGraph(ecie.visited, ecie.path);
+    disableButtons(timeoutTime);
   }
 }
 
@@ -512,6 +540,11 @@ function calculateCellQuantity(cellSize) {
   let containerHeight = document.querySelector(".tabela").offsetHeight;
   let numOfCols = Math.floor(containerWidth / cellSize);
   let numOfRows = Math.floor(containerHeight / cellSize);
+  if (numOfCols % 2 == 0) {
+    numOfCols--;
+  } else if (numOfRows % 2 == 0) {
+    numOfRows--;
+  } 
   return [numOfCols, numOfRows];
 }
 
@@ -521,7 +554,9 @@ function removeNodeStyles() {
   console.log(allNodesToErase);
   for (let el of allNodesToErase) {
     el.removeAttribute("style");
-    el.removeAttribute("class");
+    el.classList.remove('visited');
+    el.classList.remove('shortest-path-node');
+    el.classList.remove('already')
   }
 }
 module.exports = {
