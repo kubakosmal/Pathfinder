@@ -49,6 +49,7 @@ function animateGraph(visited, path) {
           background: ["#1a1e26", "#FF1231", "#31A6FA"],
           borderRadius: ["100%", "25%", '0%'],
           borderColor: ['rgba(0, 255, 219, 0.1)'],
+          zIndex: [5]
         },
         { duration: 1,
         easing: 'ease-out' }
@@ -86,7 +87,7 @@ function animateGraph(visited, path) {
           borderRadius: ["25%", "75%", "0%"],
           borderColor: ["#31A6FA", "#FF2965", "#FFF208"]
         },
-        { duration: 1,
+        { duration: .6,
         easing: 'linear' }
       );
 

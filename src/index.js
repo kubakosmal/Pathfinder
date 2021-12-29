@@ -345,6 +345,9 @@ window.mouseMoved = function (elementId) {
 
 // RECURSIVE DIVISION
 window.RDM = function () {
+  for (let el of document.querySelectorAll('td')) {
+    el.classList.remove('blocked');
+  }
   let counter = 0;
   let xd = lightRecursiveDivision(COLUMNS, ROWS);
   for (let el of xd) {
