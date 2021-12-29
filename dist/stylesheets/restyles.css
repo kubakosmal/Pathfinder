@@ -16,7 +16,7 @@ body {
   font-family: "Roboto Mono", monospace;
   opacity: 1;
   /* background-image: linear-gradient(to left top, #0f1115, #121519, #15181d, #181b22, #1a1e26); */
-  background-color: #0F1115;
+  background-color: #1a1e26;
 }
 
 img {
@@ -519,12 +519,11 @@ label:before {
 
 
 .tabela {
-  
   width: 85%;
   height: 95%;
   border-radius: 2px;
   background-color: #0f1115;
-  
+  border: 2px solid rgba(133,150,193, .2);
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }
 
@@ -665,8 +664,8 @@ td:hover {
   }
 }
 
-@media only screen and (max-width: 1930px) {
+/* @media only screen and (max-width: 1900px) {
   html {
     font-size: 14px;
   }
-}
+} */
