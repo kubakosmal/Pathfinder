@@ -1,8 +1,8 @@
 const { gsap } = require("gsap/dist/gsap");
 const algorithms = require("./algorithms.js");
 const { aStar } = require("./astar.js");
-const { animate } = require("motion");
-console.log(animate);
+const { animate, spring } = require("motion");
+const anime = require('animejs');
 
 // graph filtering function
 function filterGraph(graph, blocked) {
@@ -35,25 +35,47 @@ function animateGraph(visited, path) {
 
   let vlen = visited.length;
 
-  
+  let duration = 25;
 
   // animate visited nodes
   for (let i = 0; i < vlen; i++) {
     document.getElementById(visited[i]).classList.add("already");
     setTimeout(function () {
-      //gsap
+      
+      // motion one
       animate(
         document.getElementById(visited[i]),
         {
-          transform: ["scale(.5)", "scale(1.2)", 'scale(1)'],
-          background: ["#1a1e26", "#FF1231", "#31A6FA"],
-          borderRadius: ["100%", "25%", '0%'],
-          borderColor: ['rgba(0, 255, 219, 0.1)'],
-          zIndex: [5]
+          transform: [ "scale(1)", 'scale(.3)', 'scale(1.2)', 'scale(1)'],
+          backgroundColor: ["#0F1115",  "#FF2965", "#0D63F8", "#31A6FA"],
+          borderRadius: ["25%", "100%", '20%', '0%'],
         },
-        { duration: 1,
-        easing: 'ease-out' }
+        { duration: .8,
+        easing: 'linear' }
       );
+
+      // gsap
+      /* gsap.timeline().from(document.getElementById(visited[i]), {
+        scale: 0.5,
+        backgroundColor: '#FF2965',
+        borderRadius: '100%',
+        borderColor: '#FF2965'
+      })
+      .to(
+        document.getElementById(visited[i]),
+        {scale: 1.3,
+        backgroundColor: '#0D63F8',
+        borderRadius: '20%',
+      borderColor: '#0D63F8'},
+        
+      )
+      .to(
+        document.getElementById(visited[i]),
+        {scale: 1,
+        backgroundColor: '#31A6FA',
+        borderRadius: '0%',
+      borderColor: 'rgba(133,150,193,0.1)'}
+      ) */
 
       // animejs
       /*  anime({
@@ -64,7 +86,7 @@ function animateGraph(visited, path) {
         easing: "linear",
         duration: 1500,
       }); */
-    }, 25 * delay);
+    }, duration * delay);
 
     delay++;
   }
@@ -78,6 +100,7 @@ function animateGraph(visited, path) {
     setTimeout(function () {
       let currentVisited = document.getElementById(path[i]);
 
+      // motion one
       animate(
         document.getElementById(path[i]),
         {
@@ -87,7 +110,7 @@ function animateGraph(visited, path) {
           borderRadius: ["25%", "75%", "0%"],
           borderColor: ["#31A6FA", "#FF2965", "#FFF208"]
         },
-        { duration: .6,
+        { duration: .3,
         easing: 'linear' }
       );
 
@@ -99,7 +122,7 @@ function animateGraph(visited, path) {
         borderColor: ['#D86E8A', '#FFE20A'],
         duration: 1500
       }) */
-    }, 25 * delay);
+    }, duration * delay);
 
     delay += 2;
   }
@@ -119,7 +142,7 @@ function animateGraph(visited, path) {
     }, 25 * delay);
   } */
 
-  return delay;
+  return [delay, duration];
 }
 
 // make a grid function
@@ -398,7 +421,7 @@ function visualizeAstar(
     let timeoutTime = animateGraph(ecie.visited, ecie.path);
 
     // disable buttons for running time
-    disableButtons(timeoutTime);
+    disableButtons(timeoutTime[0], timeoutTime[1]);
   }
 }
 
@@ -519,9 +542,10 @@ function dynamicAnimate(
   }
 }
 
-function disableButtons(timeoutTime) {
+function disableButtons(timeoutTime, duration) {
   timeoutTime += 20;
-  let buttons = document.querySelectorAll(".button");
+  let buttons = document.querySelectorAll("button");
+  let mazes = document.querySelectorAll(".maze")
 
   for (let el of buttons) {
     el.disabled = true;
@@ -532,13 +556,27 @@ function disableButtons(timeoutTime) {
     setTimeout(() => {
       el.disabled = false;
       el.classList.toggle("inactive");
-    }, 25 * timeoutTime);
+    }, duration * timeoutTime);
+  }
+
+  for (let el of mazes) {
+    el.disabled = true;
+    el.classList.toggle("inactive");
+  }
+
+  for (let el of mazes) {
+    setTimeout(() => {
+      el.disabled = false;
+      el.classList.toggle("inactive");
+    }, duration * timeoutTime);
   }
 }
 
 function calculateCellQuantity(cellSize) {
   let containerWidth = document.querySelector(".tabela").offsetWidth;
   let containerHeight = document.querySelector(".tabela").offsetHeight;
+  console.log(containerWidth);
+  console.log(containerHeight);
   let numOfCols = Math.floor(containerWidth / cellSize);
   let numOfRows = Math.floor(containerHeight / cellSize);
   if (numOfCols % 2 == 0) {
@@ -560,6 +598,62 @@ function removeNodeStyles() {
     el.classList.remove('already')
   }
 }
+
+function initialAnimations() {
+  let logo = document.querySelector('.logo');
+  let gitAnchor = document.querySelector('a');
+  let main = document.querySelector('.main');
+  let logoImg = document.querySelector('.logo-image')
+
+  animate(
+    logo,
+    {
+      opacity: [0, 1],
+      transform: ['translate(-500px, 0px)', 'translate(0px, 0px)']
+    },
+    {duration: 1}
+  )
+
+  setTimeout(() => {
+    animate(
+      gitAnchor,
+      {
+        opacity: [0, 1],
+        transform: ['translate(500px, 0px)', 'translate(0px, 0px)'],
+      },
+      {duration: 1}
+    )
+  }, 1)
+
+  setTimeout(() => {
+    animate(
+      logoImg,
+      {
+        transform: ['scale(1)', 'scale(1.3)', 'scale(1)'],
+      },
+      {duration: 1.2}
+    )
+  }, 1300)
+
+  /* setTimeout(() => {
+    animate(
+      logoImg,
+      {
+        transform: ['rotateY(360deg)'],
+      },
+      {duration: 1}
+    )
+  }, 1500) */
+
+  animate(
+    main,
+    {
+      opacity: [0, 1],
+      transform: ['translate(0px, 500px)', 'translate(0px, 0px)'],
+    },
+    {duration: 1}
+  )
+}
 module.exports = {
   filterGraph,
   animateGraph,
@@ -575,4 +669,6 @@ module.exports = {
   dynamicAnimate,
   calculateCellQuantity,
   removeNodeStyles,
+  disableButtons,
+  initialAnimations
 };

@@ -4,6 +4,9 @@ const {
   lightRecursiveDivision,
 } = require("./scripts/lightRecursiveDivision.js");
 
+// initial animations
+control.initialAnimations();
+
 // GLOBAL VARS
 let blockedNodes = [];
 let weightNodes = [];
@@ -11,8 +14,10 @@ let startNode = "c5r8";
 let endNode = "c30r8";
 let ROWS = 33;
 let COLUMNS = 51;
-const CELLSIZE = 21;
+const CELLSIZE = 23;
 // GLOBAL VARS
+
+
 
 // CALCULATING NUMBER OF CELLS
 let cellQuantity = control.calculateCellQuantity(CELLSIZE);
@@ -246,6 +251,9 @@ window.mouseUp = function () {
   clickedOnEnd = false;
 };
 
+// previously touched element
+let previouslyTouched = null;
+
 window.mouseMoved = function (elementId) {
   if (isMouseDown) {
     // get id of currently clicked element
@@ -288,10 +296,15 @@ window.mouseMoved = function (elementId) {
 
       // if dynamicPathfinding true, animate instantly
       if (dynamicPathfinding == true) {
-        control.removeNodeStyles();
-        control.dynamicAnimate(ROWS, COLUMNS, startNode, endNode, blockedNodes, weightNodes);
-        setInitialValues();
-        console.log(startNode);
+
+        // if its not the same node
+        if (currentlyTouched != previouslyTouched) {
+          control.removeNodeStyles();
+          control.dynamicAnimate(ROWS, COLUMNS, startNode, endNode, blockedNodes, weightNodes);
+          setInitialValues();
+          previouslyTouched = currentlyTouched;
+        }
+        
       }
     }
     // if clicked on start
@@ -344,12 +357,13 @@ window.mouseMoved = function (elementId) {
 };
 
 // RECURSIVE DIVISION
-window.RDM = function () {
+window.RDM = function (orientation) {
+  blockedNodes = [];
   for (let el of document.querySelectorAll('td')) {
     el.classList.remove('blocked');
   }
   let counter = 0;
-  let xd = lightRecursiveDivision(COLUMNS, ROWS);
+  let xd = algorithms.recursiveDivision(COLUMNS, ROWS, orientation);
   for (let el of xd) {
     setTimeout(() => {
       if (el != startNode && el != endNode) {
@@ -359,7 +373,49 @@ window.RDM = function () {
     }, 10 * counter);
     counter++;
   }
+
+  control.disableButtons(counter, 10);
 };
+
+window.randomMaze = function() {
+  blockedNodes = [];
+  for (let el of document.querySelectorAll('td')) {
+    el.classList.remove('blocked');
+  }
+  let toBeBlocked = algorithms.randomMaze(ROWS, COLUMNS);
+  let counter = 0;
+  for (let el of toBeBlocked) {
+    setTimeout(() => {
+      if (el != startNode && el != endNode) {
+        document.getElementById(el).classList.add("blocked");
+        blockedNodes.push(el);
+      }
+    }, 1 * counter);
+    counter++;
+  }
+
+  control.disableButtons(counter, 1);
+}
+
+window.stripesMaze = function() {
+  blockedNodes = [];
+  for (let el of document.querySelectorAll('td')) {
+    el.classList.remove('blocked');
+  }
+  let counter = 0;
+  let xd = algorithms.stripesMaze(ROWS, COLUMNS);
+  for (let el of xd) {
+    setTimeout(() => {
+      if (el != startNode && el != endNode) {
+        document.getElementById(el).classList.add("blocked");
+        blockedNodes.push(el);
+      }
+    }, 10 * counter);
+    counter++;
+  }
+
+  control.disableButtons(counter, 10);
+}
 
 /* function rundDfsMaze() {
   let graph = control.makeGraph(ROWS, COLUMNS);
