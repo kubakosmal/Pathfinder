@@ -1,12 +1,8 @@
 <head>
   <link rel="stylesheet" href="./stylesheets/restyles.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap"
-    rel="stylesheet"
-  />
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="shortcut icon" href="https://svgur.com/i/cF3.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
@@ -16,13 +12,15 @@
       <div class="logo-wrapper">
         <div class="logo">
           <p id='pathfinder-logo-text'>pathfinder</p>
-          <img class="logo-image" src="http://svgur.com/i/dD6.svg" />
+          <img class="logo-image" src="http://svgur.com/i/dLu.svg" />
         </div>
       </div>
 
       <a href="#" role="button" 
-        >View source on
-        <img id="github-icon" src="http://svgur.com/i/d8Z.svg" />
+        >
+        <p>View source on</p>
+        
+        <img id="github-icon" src="http://svgur.com/i/dM5.svg" />
       </a>
     </div>
 
@@ -178,9 +176,9 @@
           <div class="mazes">
             <div onclick="RDM('horizontal')" class="maze" id="rdm">
               <div class="maze-name">
-                <img id="rdm-ico" src="http://svgur.com/i/dEG.svg" alt="" />
+                <img id="rdm-ico" src="http://svgur.com/i/dLC.svg" alt="" />
 
-                <h3 id="rdm-h3">Recursive Division</h3>
+                <p>Recursive Division</p>
                 <!-- <h4>(Horizontal Skew)</h4> -->
               </div>
 
@@ -204,8 +202,8 @@
 
             <div onclick="randomMaze()" class="maze" id="random">
               <div class="maze-name">
-                <img src="http://svgur.com/i/cvY.svg" alt="" />
-                <h3>Random Maze</h3>
+                <img src="http://svgur.com/i/dM3.svg" alt="" />
+                <p>Random Maze</p>
               </div>
 
               <div class="maze-desc">
@@ -217,12 +215,12 @@
 
             <div onclick="stripesMaze()" class="maze" id="random">
               <div class="maze-name">
-                <img id='stripes-ico' src="http://svgur.com/i/dEv.svg" alt="" />
-                <h3>Stripes Pattern</h3>
+                <img id='stripes-ico' src="http://svgur.com/i/dJR.svg" alt="" />
+                <p>Stripes Pattern</p>
               </div>
 
               <div class="maze-desc">
-                <p>Fill the board with stripes, with randomly picked passages</p>
+                <p>Fill the board with stripes, every fourth column</p>
               </div>
               
             </div>
@@ -251,8 +249,8 @@
           />
           <label for="walls" id="walls-label-id">
             <div class="walls-label wbl">
-              <p>Walls</p>
-              <img src="https://svgur.com/i/cm5.svg" alt="" />
+              <p>Blocks</p>
+              <!-- <img src="https://svgur.com/i/cm5.svg" alt="" /> -->
             </div>
           </label>
 
@@ -266,7 +264,7 @@
           <label for="weights">
             <div class="weights-label wbl">
               <p>Weights</p>
-              <img src="http://svgur.com/i/dG0.svg" alt="">
+              <!-- <img src="http://svgur.com/i/dG0.svg" alt=""> -->
             </div>
           </label>
         </div>
