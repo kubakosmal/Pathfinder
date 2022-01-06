@@ -3,7 +3,6 @@ function getRandomInt(min, max) {
   return min + Math.floor(Math.random() * (max - min + 1));
 }
 
-
 // bfs algorithm
 function bfs(graph, start, end) {
   // object containing visited and path to return
@@ -237,7 +236,18 @@ function aStar(graph, start, end) {
           console.log(successor);
         }
         let f =
-          (distance + heuristic) * graph[currentLowest.name][successor].weight;
+          distance * graph[currentLowest.name][successor].weight + heuristic;
+
+        // costly turns
+        // check if direction has changed, if so add 1 to distance
+        /* let currCordC = currentLowest.name.slice(1, 2);
+        let currCordR = currentLowest.name.slice(3);
+        let succCordC = successor.slice(1, 2);
+        let succCordR = successor.slice(3);
+
+        if (currCordC != succCordC || currCordR != succCordR) {
+          f+= 2;
+        } */
 
         // succcessor obj
         let newSuccessor = {
@@ -330,23 +340,30 @@ function dfs(graph, start, end) {
     path: [],
   };
 
-  function search(node) {
-    closed.add(node);
-    visitedAndPath.visited.push(node);
-    if (node == end) {
+  open.push(start);
+
+  while (open.length > 0) {
+    let current = open.pop();
+
+    if (current == end) {
+      visitedAndPath.visited.push(end);
+      visitedAndPath.path = visitedAndPath.visited;
       return visitedAndPath;
-    } else {
-      for (let el of graph[node]) {
-        if (!closed.has(el)) {
-          return search(el);
-        }
+    }
+
+    for (let el of graph[current]) {
+      if (!closed.has(el)) {
+        open.push(el);
       }
     }
+
+    closed.add(current);
+    visitedAndPath.visited.push(current);
   }
 
-  search(start);
+  /* search(start);
 
-  return visitedAndPath;
+  return visitedAndPath; */
 
   /*   open.push(start);
 
@@ -395,7 +412,7 @@ function dijkstra(graph, start, end) {
   let count = 0;
   // while there are nodes in queue
   while (queue.length > 0) {
-    count++
+    count++;
     // current node
     let curr = {
       name: null,
@@ -416,29 +433,41 @@ function dijkstra(graph, start, end) {
       console.log("found!");
       let path = [];
       let trackedNode = end;
+      tracking[start] == null;
 
-      /* while (trackedNode != null) {
+      console.log("TRACKING!!!");
+      console.log(tracking[end]);
+      console.log("TRACKING 2!!!");
+      console.log(tracking[tracking[end]]);
+      console.log(tracking[start]);
+
+      while (trackedNode != undefined) {
         path.unshift(trackedNode);
         trackedNode = tracking[trackedNode];
-      } */
+      }
 
       visitedAndPath.path = path;
-      console.log(count)
+      console.log(count);
       return visitedAndPath;
-      
-
     } else {
-      console.log('curr weight')
+      console.log("curr weight");
       console.log(curr.weight);
       for (let el of neighbors) {
         if (!visited.has(el)) {
           tracking[el] = curr.name;
-          
+          console.log(`im ${el} called by ${tracking[el]}`);
+
           let newWeight = (curr.weight + 1) * graph[curr.name][el].weight;
           if (graph[curr.name][el].weight == 1.5) {
-            console.log(`${el} is weighted. Its base weight is ${graph[curr.name][el].weight}. Its parrent weight is ${curr.weight}, thus its new weight is ${newWeight}`)
+            console.log(
+              `${el} is weighted. Its base weight is ${
+                graph[curr.name][el].weight
+              }. Its parrent weight is ${
+                curr.weight
+              }, thus its new weight is ${newWeight}`
+            );
           }
-          queue.push({name: el, weight: newWeight});
+          queue.push({ name: el, weight: newWeight });
           visited.add(el);
         }
       }
@@ -446,10 +475,10 @@ function dijkstra(graph, start, end) {
       // remove currentLowest from queue
       visitedAndPath.visited.push(curr.name);
       queue = queue.filter((x) => x != curr);
+      visited.add(curr.name);
     }
   }
 }
-
 
 // recursive division
 function recursiveDivision(width, height, orientation) {
@@ -636,12 +665,12 @@ function stripesMaze(ROWS, COLUMNS) {
   let toBeBlocked = [];
 
   for (let i = 1; i < COLUMNS; i += 4) {
-    let toSkip = getRandomInt(0, ROWS - 1)
-    let toSkip2 = getRandomInt(0, ROWS - 1)
-    let toSkip3 = getRandomInt(0, ROWS - 1)
-    let toSkip4 = getRandomInt(0, ROWS - 1)
+    let toSkip = getRandomInt(0, ROWS - 1);
+    let toSkip2 = getRandomInt(0, ROWS - 1);
+    let toSkip3 = getRandomInt(0, ROWS - 1);
+    let toSkip4 = getRandomInt(0, ROWS - 1);
     for (let j = 0; j < ROWS; j++) {
-      if ((j != toSkip && j!= toSkip2) && (j!=toSkip3 && j!=toSkip4)) {
+      if (j != toSkip && j != toSkip2 && j != toSkip3 && j != toSkip4) {
         toBeBlocked.push(`c${i}r${j}`);
       }
     }
@@ -658,5 +687,5 @@ module.exports = {
   dijkstra,
   recursiveDivision,
   randomMaze,
-  stripesMaze
+  stripesMaze,
 };

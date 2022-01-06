@@ -17,15 +17,13 @@ let COLUMNS = 51;
 const CELLSIZE = 23;
 // GLOBAL VARS
 
-
-
 // CALCULATING NUMBER OF CELLS
-let cellQuantity = control.calculateCellQuantity(CELLSIZE);
+const cellQuantity = control.calculateCellQuantity(CELLSIZE);
 COLUMNS = cellQuantity[0];
 ROWS = cellQuantity[1];
 
-console.log(COLUMNS)
-console.log(ROWS)
+console.log(COLUMNS);
+console.log(ROWS);
 // END OF CALCULATING
 
 // MAKING GRID FIRST
@@ -34,8 +32,8 @@ control.makeGrid(ROWS, COLUMNS);
 
 // SET INITIAL START AND END FUNCTION
 function setInitialValues() {
-  let setInitialStart = document.getElementById(startNode);
-  let setInitialEnd = document.getElementById(endNode);
+  const setInitialStart = document.getElementById(startNode);
+  const setInitialEnd = document.getElementById(endNode);
   setInitialStart.classList.add("start");
   setInitialEnd.classList.add("end");
   /* blockedNodes = []; */
@@ -64,7 +62,7 @@ function changeState(clickedId) {
   // if it is blocked click
   if (buttonState == "blocked") {
     // if its not start or end
-    let cell = document.getElementById(clickedId);
+    const cell = document.getElementById(clickedId);
     if (!cell.classList.contains("start") && !cell.classList.contains("end")) {
       // if blocked incluides ID
       if (blockedNodes.includes(clickedId)) {
@@ -77,18 +75,16 @@ function changeState(clickedId) {
       // color and add class
 
       cell.classList.toggle(buttonState);
-
-      return;
     }
   } else {
     // removing class from td so that it can be only one start/end
-    let cells = document.getElementsByTagName("td");
-    for (let x of cells) {
+    const cells = document.getElementsByTagName("td");
+    for (const x of cells) {
       x.classList.remove(buttonState);
     }
 
     // select cell
-    let cell = document.getElementById(clickedId);
+    const cell = document.getElementById(clickedId);
     cell.classList.toggle(buttonState);
 
     // if start, change starting node ID
@@ -108,14 +104,14 @@ let dynamicPathfinding = false;
 // USAGE OF APP
 window.run = function () {
   // get the value of checked radio button
-  let choosedAlgorithm = document.querySelector(
+  const choosedAlgorithm = document.querySelector(
     'input[name="checked-algorithm"]:checked'
   ).value;
   console.log(choosedAlgorithm);
 
   // erase visited and shortest path classes
-  let alreadyVisited = document.querySelectorAll("td");
-  for (let el of alreadyVisited) {
+  const alreadyVisited = document.querySelectorAll("td");
+  for (const el of alreadyVisited) {
     el.removeAttribute("style");
     el.classList.remove("visited");
     el.classList.remove("shortest-path-node");
@@ -154,8 +150,8 @@ window.run = function () {
 
 // CLEAR BOARD FUNCTION
 window.clearBoard = function () {
-  let allNodesToErase = document.querySelectorAll("td");
-  for (let el of allNodesToErase) {
+  const allNodesToErase = document.querySelectorAll("td");
+  for (const el of allNodesToErase) {
     el.removeAttribute("style");
     el.removeAttribute("class");
   }
@@ -192,7 +188,7 @@ dynamicPathfinding = false;
 window.mouseDown = function (elementId) {
   isMouseDown = true;
 
-  let currentlyClicked = document.getElementById(elementId);
+  const currentlyClicked = document.getElementById(elementId);
 
   // if currently clicked has class of 'blocked'
   if (
@@ -216,35 +212,38 @@ window.mouseUp = function () {
   isMouseDown = false;
 
   // update blocked/weight nodes
-  let wallOrWeight = document.querySelector(
+  const wallOrWeight = document.querySelector(
     'input[name="walls-weights"]:checked'
   ).value;
 
   if (wallOrWeight == "walls") {
     // adding
-    let newBlockedNodes = Array.from(newBlockedSet);
+    const newBlockedNodes = Array.from(newBlockedSet);
     blockedNodes = blockedNodes.concat(newBlockedNodes);
     newBlockedSet = new Set();
 
     // deleting
-    let newUnblockedNodes = Array.from(newUnblockedSet);
+    const newUnblockedNodes = Array.from(newUnblockedSet);
     blockedNodes = blockedNodes.filter(
       (item) => !newUnblockedNodes.includes(item)
     );
     newUnblockedSet = new Set();
   } else if (wallOrWeight == "weights") {
     // adding
-    let newWeightsToAdd = Array.from(newWeights);
+    const newWeightsToAdd = Array.from(newWeights);
     weightNodes = weightNodes.concat(newWeightsToAdd);
     newWeights = new Set();
 
     // deleting
-    let newWeightsToRemove = Array.from(newUnblockedWeights);
+    const newWeightsToRemove = Array.from(newUnblockedWeights);
     weightNodes = weightNodes.filter(
       (item) => !newWeightsToRemove.includes(item)
     );
     newUnblockedWeights = new Set();
   }
+
+  // if dynamicPathfinding true, animate instantly
+  
 
   // !!!
   clickedOnStart = false;
@@ -257,12 +256,12 @@ let previouslyTouched = null;
 window.mouseMoved = function (elementId) {
   if (isMouseDown) {
     // get id of currently clicked element
-    let currentlyTouched = document.getElementById(elementId);
+    const currentlyTouched = document.getElementById(elementId);
 
     // if clicked on blocked, empty or weight
     if (!clickedOnStart && !clickedOnEnd) {
       // get value from walls/weights radio
-      let wallOrWeight = document.querySelector(
+      const wallOrWeight = document.querySelector(
         'input[name="walls-weights"]:checked'
       ).value;
       if (wallOrWeight == "walls") {
@@ -296,47 +295,63 @@ window.mouseMoved = function (elementId) {
 
       // if dynamicPathfinding true, animate instantly
       if (dynamicPathfinding == true) {
-
         // if its not the same node
         if (currentlyTouched != previouslyTouched) {
           control.removeNodeStyles();
-          control.dynamicAnimate(ROWS, COLUMNS, startNode, endNode, blockedNodes, weightNodes);
+          control.dynamicAnimate(
+            ROWS,
+            COLUMNS,
+            startNode,
+            endNode,
+            blockedNodes,
+            weightNodes
+          );
           setInitialValues();
           previouslyTouched = currentlyTouched;
         }
-        
       }
     }
     // if clicked on start
     else if (clickedOnStart && !clickedOnEnd) {
       // if start id is different than currently clicked
-      if (startNode != elementId && !document.getElementById(elementId).classList.contains('blocked')) {
+      if (
+        startNode != elementId &&
+        !document.getElementById(elementId).classList.contains("blocked")
+      ) {
         // remove start class from all elements
-        let cells = document.getElementsByTagName("td");
-        for (let x of cells) {
+        const cells = document.getElementsByTagName("td");
+        for (const x of cells) {
           x.classList.remove("start");
         }
         // add class start to currently touched
         currentlyTouched.classList.add("start");
         // make currently touched new start node
         startNode = elementId;
-
-        
       }
 
       // if dynamicPathfinding true, animate instantly
       if (dynamicPathfinding == true) {
         control.removeNodeStyles();
-        control.dynamicAnimate(ROWS, COLUMNS, startNode, endNode, blockedNodes, weightNodes);
+        control.dynamicAnimate(
+          ROWS,
+          COLUMNS,
+          startNode,
+          endNode,
+          blockedNodes,
+          weightNodes
+        );
         setInitialValues();
       }
     }
     // if clicked on end
     else if (clickedOnEnd && !clickedOnStart) {
       // if start id is different than currently clicked
-      if (endNode != elementId && !document.getElementById(elementId).classList.contains('blocked')) {
-        let cells = document.getElementsByTagName("td");
-        for (let x of cells) {
+      if (
+        endNode != elementId &&
+        !document.getElementById(elementId).classList.contains("blocked")
+      ) {
+        const cells = document.getElementsByTagName("td");
+        for (const x of cells) {
           x.classList.remove("end");
         }
 
@@ -346,11 +361,18 @@ window.mouseMoved = function (elementId) {
         endNode = elementId;
 
         // if dynamicPathfinding true, animate instantly
-      if (dynamicPathfinding == true) {
-        control.removeNodeStyles();
-        control.dynamicAnimate(ROWS, COLUMNS, startNode, endNode, blockedNodes, weightNodes);
-        setInitialValues();
-      }
+        if (dynamicPathfinding == true) {
+          control.removeNodeStyles();
+          control.dynamicAnimate(
+            ROWS,
+            COLUMNS,
+            startNode,
+            endNode,
+            blockedNodes,
+            weightNodes
+          );
+          setInitialValues();
+        }
       }
     }
   }
@@ -358,13 +380,14 @@ window.mouseMoved = function (elementId) {
 
 // RECURSIVE DIVISION
 window.RDM = function (orientation) {
+  control.removeNodeStyles();
   blockedNodes = [];
-  for (let el of document.querySelectorAll('td')) {
-    el.classList.remove('blocked');
+  for (const el of document.querySelectorAll("td")) {
+    el.classList.remove("blocked");
   }
   let counter = 0;
-  let xd = algorithms.recursiveDivision(COLUMNS, ROWS, orientation);
-  for (let el of xd) {
+  const xd = algorithms.recursiveDivision(COLUMNS, ROWS, orientation);
+  for (const el of xd) {
     setTimeout(() => {
       if (el != startNode && el != endNode) {
         document.getElementById(el).classList.add("blocked");
@@ -377,14 +400,15 @@ window.RDM = function (orientation) {
   control.disableButtons(counter, 10);
 };
 
-window.randomMaze = function() {
+window.randomMaze = function () {
+  control.removeNodeStyles();
   blockedNodes = [];
-  for (let el of document.querySelectorAll('td')) {
-    el.classList.remove('blocked');
+  for (const el of document.querySelectorAll("td")) {
+    el.classList.remove("blocked");
   }
-  let toBeBlocked = algorithms.randomMaze(ROWS, COLUMNS);
+  const toBeBlocked = algorithms.randomMaze(ROWS, COLUMNS);
   let counter = 0;
-  for (let el of toBeBlocked) {
+  for (const el of toBeBlocked) {
     setTimeout(() => {
       if (el != startNode && el != endNode) {
         document.getElementById(el).classList.add("blocked");
@@ -395,16 +419,17 @@ window.randomMaze = function() {
   }
 
   control.disableButtons(counter, 1);
-}
+};
 
-window.stripesMaze = function() {
+window.stripesMaze = function () {
+  control.removeNodeStyles();
   blockedNodes = [];
-  for (let el of document.querySelectorAll('td')) {
-    el.classList.remove('blocked');
+  for (const el of document.querySelectorAll("td")) {
+    el.classList.remove("blocked");
   }
   let counter = 0;
-  let xd = algorithms.stripesMaze(ROWS, COLUMNS);
-  for (let el of xd) {
+  const xd = algorithms.stripesMaze(ROWS, COLUMNS);
+  for (const el of xd) {
     setTimeout(() => {
       if (el != startNode && el != endNode) {
         document.getElementById(el).classList.add("blocked");
@@ -415,7 +440,9 @@ window.stripesMaze = function() {
   }
 
   control.disableButtons(counter, 10);
-}
+};
+
+document.getElementById('c5r8').setAttribute('disabled', 'true');
 
 /* function rundDfsMaze() {
   let graph = control.makeGraph(ROWS, COLUMNS);

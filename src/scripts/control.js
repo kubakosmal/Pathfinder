@@ -46,12 +46,13 @@ function animateGraph(visited, path) {
       animate(
         document.getElementById(visited[i]),
         {
-          transform: [ "scale(1)", 'scale(.3)', 'scale(1.2)', 'scale(1)'],
-          backgroundColor: ["#0F1115",  "#FF2965", "#0D63F8", "#31A6FA"],
+          transform: [ "scale(.8)", 'scale(.3)', 'scale(1)'/* , 'scale(1.1)', 'scale(1)' */],
+          backgroundColor: ["#0F1115",  "#FF2965", "#0D63F8",  "#00FFDB"],
+          /* borderColor: 'rgba(133,150,193, .5)', */
           borderRadius: ["25%", "100%", '20%', '0%'],
         },
-        { duration: .8,
-        easing: 'linear' }
+        { duration: 1,
+        easing: 'ease-out' }
       );
 
       // gsap
@@ -99,19 +100,20 @@ function animateGraph(visited, path) {
     document.getElementById(path[i]).classList.add("already");
     setTimeout(function () {
       let currentVisited = document.getElementById(path[i]);
+      
 
       // motion one
       animate(
         document.getElementById(path[i]),
         {
-          transform: ["scale(1)", "scale(.3)", "scale(1)"],
-          /* opacity: [0.1, 1], */
+          /* transform: ["scale(1)", "scale(.3)", "scale(1)"], */
+          opacity: [0.1, 1],
           backgroundColor: ["#31A6FA", "#FF2965", "#FFF208"],
-          borderRadius: ["25%", "75%", "0%"],
+          /* borderRadius: ["25%", "75%", "0%"], */
           borderColor: ["#31A6FA", "#FF2965", "#FFF208"]
         },
-        { duration: .3,
-        easing: 'linear' }
+        { duration: .8,
+        easing: 'ease-in' }
       );
 
       // animejs
@@ -210,9 +212,10 @@ function makeGraph(rows, cols) {
         // if middle col
         else {
           graph[`c${j}r${i}`] = [
-            `c${j - 1}r${i}`,
-            `c${j + 1}r${i}`,
             `c${j}r${i - 1}`,
+            `c${j + 1}r${i}`,
+            
+            `c${j - 1}r${i}`,
           ];
         }
       }
@@ -238,10 +241,11 @@ function makeGraph(rows, cols) {
         // if middle row and middle column
         else {
           graph[`c${j}r${i}`] = [
-            `c${j + 1}r${i}`,
             `c${j - 1}r${i}`,
-            `c${j}r${i - 1}`,
+            `c${j + 1}r${i}`,
             `c${j}r${i + 1}`,
+            `c${j}r${i - 1}`,
+            
           ];
         }
       }
@@ -277,33 +281,33 @@ function makeWeightedGraph(rows, cols) {
       else if (i == 0 && j == cols - 1) {
         propName1 = `c${j - 1}r${i}`;
         propName2 = `c${j}r${i + 1}`;
-        propName3 = `c${j - 1}r${i + 1}`;
+        
         graph[`c${j}r${i}`] = {
           [propName1]: { weight: 1, heuristic: 0 },
           [propName2]: { weight: 1, heuristic: 0 },
-          [propName3]: { weight: 1, heuristic: 0 },
+          
         };
       }
       // if bottom left
       else if (i == rows - 1 && j == 0) {
         propName1 = `c${j}r${i - 1}`;
-        propName2 = `c${j + 1}r${i - 1}`;
-        propName3 = `c${j + 1}r${i}`;
+        
+        propName2 = `c${j + 1}r${i}`;
         graph[`c${j}r${i}`] = {
           [propName1]: { weight: 1, heuristic: 0 },
+          
           [propName2]: { weight: 1, heuristic: 0 },
-          [propName3]: { weight: 1, heuristic: 0 },
         };
       }
       // if bottom right
       else if (i == rows - 1 && j == cols - 1) {
         propName1 = `c${j}r${i - 1}`;
         propName2 = `c${j - 1}r${i}`;
-        propName3 = `c${j - 1}r${i - 1}`;
+        
         graph[`c${j}r${i}`] = {
           [propName1]: { weight: 1, heuristic: 0 },
           [propName2]: { weight: 1, heuristic: 0 },
-          [propName3]: { weight: 1, heuristic: 0 },
+          
         };
       }
       // if top
@@ -539,11 +543,17 @@ function dynamicAnimate(
   } else if (choosedAlgorithm == "astar") {
     let visitedAndPath = algorithms.aStar(weightedGraph, startNode, endNode);
     instantAnimate(visitedAndPath.visited, visitedAndPath.path);
+  } else if (choosedAlgorithm == "dijkstra") {
+    let visitedAndPath = algorithms.dijkstra(weightedGraph, startNode, endNode);
+    instantAnimate(visitedAndPath.visited, visitedAndPath.path);
+  } else if (choosedAlgorithm == 'dfs') {
+    let visitedAndPath = algorithms.dfs(graph, startNode, endNode);
+    instantAnimate(visitedAndPath.visited, visitedAndPath.path);
   }
 }
 
 function disableButtons(timeoutTime, duration) {
-  timeoutTime += 20;
+  timeoutTime += duration;
   let buttons = document.querySelectorAll("button");
   let mazes = document.querySelectorAll(".maze")
 
@@ -570,6 +580,9 @@ function disableButtons(timeoutTime, duration) {
       el.classList.toggle("inactive");
     }, duration * timeoutTime);
   }
+
+  // disactivate start and end
+  let start = document.getElementById('')
 }
 
 function calculateCellQuantity(cellSize) {
