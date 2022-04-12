@@ -101,13 +101,21 @@ function changeState(clickedId) {
 // DYNAMIC PATHFINDING BOOL VAR
 let dynamicPathfinding = false;
 
+// ANIMATION IN PROGRESS STATE
+let inProgress = false;
+
 // USAGE OF APP
 window.run = function () {
   // get the value of checked radio button
   const choosedAlgorithm = document.querySelector(
     'input[name="checked-algorithm"]:checked'
   ).value;
-  console.log(choosedAlgorithm);
+
+  // set dynamicPathfinding to false
+  dynamicPathfinding = false;
+
+  // set inProgress to true
+  inProgress = true;
 
   // erase visited and shortest path classes
   const alreadyVisited = document.querySelectorAll("td");
@@ -117,10 +125,13 @@ window.run = function () {
     el.classList.remove("shortest-path-node");
   }
 
+  // get timeout time
+  let timeoutTime;
+
   if (choosedAlgorithm == "bfs") {
-    control.visualizeBfs(ROWS, COLUMNS, startNode, endNode, blockedNodes);
+    timeoutTime = control.visualizeBfs(ROWS, COLUMNS, startNode, endNode, blockedNodes);
   } else if (choosedAlgorithm == "astar") {
-    control.visualizeAstar(
+    timeoutTime = control.visualizeAstar(
       ROWS,
       COLUMNS,
       startNode,
@@ -130,10 +141,9 @@ window.run = function () {
       dynamicPathfinding
     );
   } else if (choosedAlgorithm == "dfs") {
-    control.visualizeDfs(ROWS, COLUMNS, startNode, endNode, blockedNodes);
+    timeoutTime = control.visualizeDfs(ROWS, COLUMNS, startNode, endNode, blockedNodes);
   } else if (choosedAlgorithm == "dijkstra") {
-    console.time("control.visualizeDijkstra");
-    control.visualizeDijkstra(
+    timeoutTime = control.visualizeDijkstra(
       ROWS,
       COLUMNS,
       startNode,
@@ -141,11 +151,13 @@ window.run = function () {
       blockedNodes,
       weightNodes
     );
-    console.timeEnd("control.visualizeDijkstra");
   }
 
-  // set dynamic pathFinding to TRUE
-  dynamicPathfinding = true;
+  // set dynamic pathFinding to TRUE when animation is finished
+  setTimeout(() => {
+    dynamicPathfinding = true
+    inProgress = false
+  }, timeoutTime)
 };
 
 // CLEAR BOARD FUNCTION
@@ -186,180 +198,158 @@ let clickedOnEnd = false;
 dynamicPathfinding = false;
 
 window.mouseDown = function (elementId) {
-  isMouseDown = true;
 
-  const currentlyClicked = document.getElementById(elementId);
+  if (!inProgress) {
+    isMouseDown = true;
 
-  // if currently clicked has class of 'blocked'
-  if (
-    currentlyClicked.classList.contains("blocked") ||
-    currentlyClicked.classList.contains("weight")
-  ) {
-    lock = false;
-  } else {
-    lock = true;
-  }
-
-  // if clicked on start or end
-  if (currentlyClicked.classList.contains("start")) {
-    clickedOnStart = true;
-  } else if (currentlyClicked.classList.contains("end")) {
-    clickedOnEnd = true;
+    const currentlyClicked = document.getElementById(elementId);
+  
+    // if currently clicked has class of 'blocked'
+    if (
+      currentlyClicked.classList.contains("blocked") ||
+      currentlyClicked.classList.contains("weight")
+    ) {
+      lock = false;
+    } else {
+      lock = true;
+    }
+  
+    // if clicked on start or end
+    if (currentlyClicked.classList.contains("start")) {
+      clickedOnStart = true;
+    } else if (currentlyClicked.classList.contains("end")) {
+      clickedOnEnd = true;
+    }
   }
 };
 
 window.mouseUp = function () {
-  isMouseDown = false;
 
-  // update blocked/weight nodes
-  const wallOrWeight = document.querySelector(
-    'input[name="walls-weights"]:checked'
-  ).value;
+  if (!inProgress) {
 
-  if (wallOrWeight == "walls") {
-    // adding
-    const newBlockedNodes = Array.from(newBlockedSet);
-    blockedNodes = blockedNodes.concat(newBlockedNodes);
-    newBlockedSet = new Set();
+    isMouseDown = false;
 
-    // deleting
-    const newUnblockedNodes = Array.from(newUnblockedSet);
-    blockedNodes = blockedNodes.filter(
-      (item) => !newUnblockedNodes.includes(item)
-    );
-    newUnblockedSet = new Set();
-  } else if (wallOrWeight == "weights") {
-    // adding
-    const newWeightsToAdd = Array.from(newWeights);
-    weightNodes = weightNodes.concat(newWeightsToAdd);
-    newWeights = new Set();
-
-    // deleting
-    const newWeightsToRemove = Array.from(newUnblockedWeights);
-    weightNodes = weightNodes.filter(
-      (item) => !newWeightsToRemove.includes(item)
-    );
-    newUnblockedWeights = new Set();
-  }
-
-  // if dynamicPathfinding true, animate instantly
+    // update blocked/weight nodes
+    const wallOrWeight = document.querySelector(
+      'input[name="walls-weights"]:checked'
+    ).value;
   
-
-  // !!!
-  clickedOnStart = false;
-  clickedOnEnd = false;
+    if (wallOrWeight == "walls") {
+      // adding
+      const newBlockedNodes = Array.from(newBlockedSet);
+      blockedNodes = blockedNodes.concat(newBlockedNodes);
+      newBlockedSet = new Set();
+  
+      // deleting
+      const newUnblockedNodes = Array.from(newUnblockedSet);
+      blockedNodes = blockedNodes.filter(
+        (item) => !newUnblockedNodes.includes(item)
+      );
+      newUnblockedSet = new Set();
+    } else if (wallOrWeight == "weights") {
+      // adding
+      const newWeightsToAdd = Array.from(newWeights);
+      weightNodes = weightNodes.concat(newWeightsToAdd);
+      newWeights = new Set();
+  
+      // deleting
+      const newWeightsToRemove = Array.from(newUnblockedWeights);
+      weightNodes = weightNodes.filter(
+        (item) => !newWeightsToRemove.includes(item)
+      );
+      newUnblockedWeights = new Set();
+    }
+  
+    // if dynamicPathfinding true, animate instantly
+    
+  
+    // !!!
+    clickedOnStart = false;
+    clickedOnEnd = false;
+  }
 };
 
 // previously touched element
 let previouslyTouched = null;
 
 window.mouseMoved = function (elementId) {
-  if (isMouseDown) {
-    // get id of currently clicked element
-    const currentlyTouched = document.getElementById(elementId);
 
-    // if clicked on blocked, empty or weight
-    if (!clickedOnStart && !clickedOnEnd) {
-      // get value from walls/weights radio
-      const wallOrWeight = document.querySelector(
-        'input[name="walls-weights"]:checked'
-      ).value;
-      if (wallOrWeight == "walls") {
-        // if its not start or end element
-        if (
-          !currentlyTouched.classList.contains("start") &&
-          !currentlyTouched.classList.contains("end")
-        ) {
-          if (lock) {
-            currentlyTouched.classList.add("blocked");
-            newBlockedSet.add(elementId);
-          } else {
-            currentlyTouched.classList.remove("blocked");
-            newUnblockedSet.add(elementId);
+  if (!inProgress) {
+    if (isMouseDown) {
+      // get id of currently clicked element
+      const currentlyTouched = document.getElementById(elementId);
+  
+      // if clicked on blocked, empty or weight
+      if (!clickedOnStart && !clickedOnEnd) {
+        // get value from walls/weights radio
+        const wallOrWeight = document.querySelector(
+          'input[name="walls-weights"]:checked'
+        ).value;
+        if (wallOrWeight == "walls") {
+          // if its not start or end element
+          if (
+            !currentlyTouched.classList.contains("start") &&
+            !currentlyTouched.classList.contains("end")
+          ) {
+            if (lock) {
+              currentlyTouched.classList.add("blocked");
+              newBlockedSet.add(elementId);
+            } else {
+              currentlyTouched.classList.remove("blocked");
+              newUnblockedSet.add(elementId);
+            }
+          }
+        } else if (wallOrWeight == "weights") {
+          if (
+            !currentlyTouched.classList.contains("start") &&
+            !currentlyTouched.classList.contains("end")
+          ) {
+            if (lock) {
+              currentlyTouched.classList.add("weight");
+              newWeights.add(elementId);
+            } else {
+              currentlyTouched.classList.remove("weight");
+              newUnblockedWeights.add(elementId);
+            }
           }
         }
-      } else if (wallOrWeight == "weights") {
-        if (
-          !currentlyTouched.classList.contains("start") &&
-          !currentlyTouched.classList.contains("end")
-        ) {
-          if (lock) {
-            currentlyTouched.classList.add("weight");
-            newWeights.add(elementId);
-          } else {
-            currentlyTouched.classList.remove("weight");
-            newUnblockedWeights.add(elementId);
+  
+        // if dynamicPathfinding true, animate instantly
+        if (dynamicPathfinding == true) {
+          // if its not the same node
+          if (currentlyTouched != previouslyTouched) {
+            control.removeNodeStyles();
+            control.dynamicAnimate(
+              ROWS,
+              COLUMNS,
+              startNode,
+              endNode,
+              blockedNodes,
+              weightNodes
+            );
+            setInitialValues();
+            previouslyTouched = currentlyTouched;
           }
         }
       }
-
-      // if dynamicPathfinding true, animate instantly
-      if (dynamicPathfinding == true) {
-        // if its not the same node
-        if (currentlyTouched != previouslyTouched) {
-          control.removeNodeStyles();
-          control.dynamicAnimate(
-            ROWS,
-            COLUMNS,
-            startNode,
-            endNode,
-            blockedNodes,
-            weightNodes
-          );
-          setInitialValues();
-          previouslyTouched = currentlyTouched;
+      // if clicked on start
+      else if (clickedOnStart && !clickedOnEnd) {
+        // if start id is different than currently clicked
+        if (
+          startNode != elementId &&
+          !document.getElementById(elementId).classList.contains("blocked")
+        ) {
+          // remove start class from all elements
+          const cells = document.getElementsByTagName("td");
+          for (const x of cells) {
+            x.classList.remove("start");
+          }
+          // add class start to currently touched
+          currentlyTouched.classList.add("start");
+          // make currently touched new start node
+          startNode = elementId;
         }
-      }
-    }
-    // if clicked on start
-    else if (clickedOnStart && !clickedOnEnd) {
-      // if start id is different than currently clicked
-      if (
-        startNode != elementId &&
-        !document.getElementById(elementId).classList.contains("blocked")
-      ) {
-        // remove start class from all elements
-        const cells = document.getElementsByTagName("td");
-        for (const x of cells) {
-          x.classList.remove("start");
-        }
-        // add class start to currently touched
-        currentlyTouched.classList.add("start");
-        // make currently touched new start node
-        startNode = elementId;
-      }
-
-      // if dynamicPathfinding true, animate instantly
-      if (dynamicPathfinding == true) {
-        control.removeNodeStyles();
-        control.dynamicAnimate(
-          ROWS,
-          COLUMNS,
-          startNode,
-          endNode,
-          blockedNodes,
-          weightNodes
-        );
-        setInitialValues();
-      }
-    }
-    // if clicked on end
-    else if (clickedOnEnd && !clickedOnStart) {
-      // if start id is different than currently clicked
-      if (
-        endNode != elementId &&
-        !document.getElementById(elementId).classList.contains("blocked")
-      ) {
-        const cells = document.getElementsByTagName("td");
-        for (const x of cells) {
-          x.classList.remove("end");
-        }
-
-        // add class end to currently touched
-        currentlyTouched.classList.add("end");
-        // make currently touched new end node
-        endNode = elementId;
-
+  
         // if dynamicPathfinding true, animate instantly
         if (dynamicPathfinding == true) {
           control.removeNodeStyles();
@@ -374,8 +364,42 @@ window.mouseMoved = function (elementId) {
           setInitialValues();
         }
       }
+      // if clicked on end
+      else if (clickedOnEnd && !clickedOnStart) {
+        // if start id is different than currently clicked
+        if (
+          endNode != elementId &&
+          !document.getElementById(elementId).classList.contains("blocked")
+        ) {
+          const cells = document.getElementsByTagName("td");
+          for (const x of cells) {
+            x.classList.remove("end");
+          }
+  
+          // add class end to currently touched
+          currentlyTouched.classList.add("end");
+          // make currently touched new end node
+          endNode = elementId;
+  
+          // if dynamicPathfinding true, animate instantly
+          if (dynamicPathfinding == true) {
+            control.removeNodeStyles();
+            control.dynamicAnimate(
+              ROWS,
+              COLUMNS,
+              startNode,
+              endNode,
+              blockedNodes,
+              weightNodes
+            );
+            setInitialValues();
+          }
+        }
+      }
     }
   }
+
+  
 };
 
 // RECURSIVE DIVISION

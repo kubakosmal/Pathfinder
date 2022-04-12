@@ -1,8 +1,5 @@
-const { gsap } = require("gsap/dist/gsap");
 const algorithms = require("./algorithms.js");
-const { aStar } = require("./astar.js");
-const { animate, spring } = require("motion");
-const anime = require('animejs');
+const { animate } = require("motion");
 
 // graph filtering function
 function filterGraph(graph, blocked) {
@@ -24,7 +21,7 @@ function instantAnimate(visited, path) {
 
   console.log(path);
   for (let el of path) {
-    document.getElementById(el).classList.toggle("visited");
+    document.getElementById(el).classList.remove("visited");
     document.getElementById(el).classList.add("shortest-path-node");
   }
 }
@@ -421,11 +418,12 @@ function visualizeAstar(
     document.getElementById("no-path").setAttribute("hidden", "true");
 
     // animate graph
-    
     let timeoutTime = animateGraph(ecie.visited, ecie.path);
 
     // disable buttons for running time
     disableButtons(timeoutTime[0], timeoutTime[1]);
+
+    return (timeoutTime[0] + timeoutTime[1]) * timeoutTime[1];
   }
 }
 
@@ -453,9 +451,9 @@ function visualizeBfs(ROWS, COLUMNS, startNode, endNode, blockedNodes) {
 
     // disable buttons for running time
     disableButtons(timeoutTime);
-  }
 
-  
+    return (timeoutTime[0] + timeoutTime[1]) * timeoutTime[1];
+  }
 }
 
 // visualize DFS function
@@ -477,6 +475,8 @@ function visualizeDfs(ROWS, COLUMNS, startNode, endNode, blockedNodes) {
     document.getElementById("no-path").setAttribute("hidden", "true");
     let timeoutTime = animateGraph(ecie.visited, ecie.path);
     disableButtons(timeoutTime);
+
+    return (timeoutTime[0] + timeoutTime[1]) * timeoutTime[1];
   }
 }
 
@@ -509,6 +509,8 @@ function visualizeDijkstra(
     document.getElementById("no-path").setAttribute("hidden", "true");
     let timeoutTime = animateGraph(ecie.visited, ecie.path);
     disableButtons(timeoutTime);
+
+    return (timeoutTime[0] + timeoutTime[1]) * timeoutTime[1];
   }
 }
 
@@ -544,6 +546,7 @@ function dynamicAnimate(
     let visitedAndPath = algorithms.aStar(weightedGraph, startNode, endNode);
     instantAnimate(visitedAndPath.visited, visitedAndPath.path);
   } else if (choosedAlgorithm == "dijkstra") {
+    removeNodeStyles()
     let visitedAndPath = algorithms.dijkstra(weightedGraph, startNode, endNode);
     instantAnimate(visitedAndPath.visited, visitedAndPath.path);
   } else if (choosedAlgorithm == 'dfs') {
@@ -581,8 +584,20 @@ function disableButtons(timeoutTime, duration) {
     }, duration * timeoutTime);
   }
 
-  // disactivate start and end
-  let start = document.getElementById('')
+  // disactivate all table cells
+  let cells = document.querySelectorAll('td')
+
+  for (let el of cells) {
+    el.disabled = true;
+  }
+
+  for (let el of cells) {
+    setTimeout(() => {
+      el.disabled = false;
+    }, duration * timeoutTime)
+  }
+
+  return duration * timeoutTime
 }
 
 function calculateCellQuantity(cellSize) {
@@ -601,7 +616,7 @@ function calculateCellQuantity(cellSize) {
 }
 
 function removeNodeStyles() {
-  let allNodesToErase = document.querySelectorAll(".already");
+  let allNodesToErase = document.querySelectorAll("td");
   console.log("NODES TO ERASE BELOW");
   console.log(allNodesToErase);
   for (let el of allNodesToErase) {
