@@ -5,6 +5,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="shortcut icon" href="https://svgur.com/i/cF3.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pathfinder</title>
 </head>
 <body>
   <div class="wrapper">
@@ -12,7 +13,7 @@
       <div class="logo-wrapper">
         <div class="logo">
           <p id='pathfinder-logo-text'>pathfinder</p>
-          <img class="logo-image" src="http://svgur.com/i/dLc.svg" />
+          <img class="logo-image" src="./static/pathfinder-logo-icon.svg" />
         </div>
       </div>
 
@@ -20,7 +21,7 @@
         >
         <p>View source on</p>
         
-        <img id="github-icon" src="http://svgur.com/i/dM5.svg" />
+        <img id="github-icon" src="./static/github-logo-icon.svg" />
       </a>
     </div>
 
@@ -47,17 +48,17 @@
                   <div class="algorithm-name">
                     <img
                       class="algorithm-icon"
-                      src="https://svgur.com/i/ci4.svg"
+                      src="./static/dijkstra-icon.svg"
                       alt=""
                     />
                     <p>Dijkstra</p>
                   </div>
                   <div class="indicators">
                     <div class="indicator">
-                      <img src="http://svgur.com/i/d4F.svg" alt="" />
+                      <img src="./static/clock-icon.svg" alt="" />
                     </div>
                     <div class="indicator">
-                      <img src="http://svgur.com/i/d50.svg" alt="" />
+                      <img src="./static/weight-icon.svg" alt="" />
                     </div>
                   </div>
                 </label>
@@ -74,17 +75,17 @@
                   <div class="algorithm-name">
                     <img
                       class="algorithm-icon"
-                      src="https://svgur.com/i/cjo.svg"
+                      src="./static/astar-icon.svg"
                       alt=""
                     />
                     <p>A* Search</p>
                   </div>
                   <div class="indicators">
                     <div class="indicator">
-                      <img src="http://svgur.com/i/d4F.svg" alt="" />
+                      <img src="./static/clock-icon.svg" alt="" />
                     </div>
                     <div class="indicator">
-                      <img src="http://svgur.com/i/d50.svg" alt="" />
+                      <img src="./static/weight-icon.svg" alt="" />
                     </div>
                   </div>
                 </label>
@@ -101,17 +102,17 @@
                   <div class="algorithm-name">
                     <img
                       class="algorithm-icon"
-                      src="https://svgur.com/i/ckY.svg"
+                      src="./static/bfs-icon.svg"
                       alt=""
                     />
                     <p>Breadth-first</p>
                   </div>
                   <div class="indicators">
                     <div class="indicator">
-                      <img src="http://svgur.com/i/d4F.svg" alt="" />
+                      <img src="./static/clock-icon.svg" alt="" />
                     </div>
                     <div class="indicator indicator-inactive">
-                      <img src="http://svgur.com/i/d50.svg" alt="" />
+                      <img src="./static/weight-icon.svg" alt="" />
                     </div>
                   </div>
                 </label>
@@ -128,17 +129,17 @@
                   <div class="algorithm-name">
                     <img
                       class="algorithm-icon"
-                      src="http://svgur.com/i/cy8.svg"
+                      src="./static/dfs-icon.svg"
                       alt=""
                     />
                     <p>Depth-first</p>
                   </div>
                   <div class="indicators">
                     <div class="indicator indicator-inactive">
-                      <img src="http://svgur.com/i/d4F.svg" alt="" />
+                      <img src="./static/clock-icon.svg" alt="" />
                     </div>
                     <div class="indicator indicator-inactive">
-                      <img src="http://svgur.com/i/d50.svg" alt="" />
+                      <img src="./static/weight-icon.svg" alt="" />
                     </div>
                   </div>
                 </label>
@@ -147,7 +148,7 @@
             <div class="run-button-wrapper">
               <button  onclick="run()" id="run-button">
                 <p>Find Path</p>
-                <img id="run-img" src="https://svgur.com/i/cjp.svg" alt="" />
+                <img id="run-img" src="./static/play-icon.svg" alt="" />
               </button>
             </div>
           </div>
@@ -156,13 +157,13 @@
             <div class="legend-item">
               <img
                 id="shortest-path-img"
-                src="http://svgur.com/i/d4F.svg"
+                src="./static/clock-icon.svg"
                 alt=""
               />
               <p>Shortest path</p>
             </div>
             <div class="legend-item">
-              <img src="http://svgur.com/i/d50.svg" alt="" />
+              <img src="./static/weight-icon.svg" alt="" />
               <p>Weighted</p>
             </div>
           </div>
@@ -176,7 +177,7 @@
           <div class="mazes">
             <div onclick="RDM('horizontal')" class="maze" id="rdm">
               <div class="maze-name">
-                <img id="rdm-ico" src="http://svgur.com/i/dLC.svg" alt="" />
+                <img id="rdm-ico" src="./static/rdm-icon.svg" alt="" />
 
                 <p>Recursive Division</p>
                 <!-- <h4>(Horizontal Skew)</h4> -->
@@ -202,7 +203,7 @@
 
             <div onclick="randomMaze()" class="maze" id="random">
               <div class="maze-name">
-                <img src="http://svgur.com/i/dM3.svg" alt="" />
+                <img src="./static/random-maze-icon.svg" alt="" />
                 <p>Random Maze</p>
               </div>
 
@@ -215,7 +216,7 @@
 
             <div onclick="stripesMaze()" class="maze" id="random">
               <div class="maze-name">
-                <img id='stripes-ico' src="http://svgur.com/i/dJR.svg" alt="" />
+                <img id='stripes-ico' src="./static//stripes-pattern-icon.svg" alt="" />
                 <p>Stripes Pattern</p>
               </div>
 
@@ -264,7 +265,6 @@
           <label for="weights">
             <div class="weights-label wbl">
               <p>Weights</p>
-              <!-- <img src="http://svgur.com/i/dG0.svg" alt=""> -->
             </div>
           </label>
         </div>
@@ -272,7 +272,6 @@
         <div class="clear-board">
           <button class="button" onclick="clearBoard()">
             <p>Clear Board</p>
-            <!-- <img src="https://svgur.com/i/cna.svg" alt="" /> -->
           </button>
         </div>
       </div>
