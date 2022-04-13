@@ -21,10 +21,12 @@ const CELLSIZE = 23;
 const cellQuantity = control.calculateCellQuantity(CELLSIZE);
 COLUMNS = cellQuantity[0];
 ROWS = cellQuantity[1];
-
-console.log(COLUMNS);
-console.log(ROWS);
 // END OF CALCULATING
+
+// DETERMINE START AND END NODES BASED ON NUMBER OF COLUMNS AND ROWS
+const startEndNodes = control.determineStartAndEndNodes(ROWS, COLUMNS);
+startNode = startEndNodes[0];
+endNode = startEndNodes[1];
 
 // MAKING GRID FIRST
 control.makeGrid(ROWS, COLUMNS);
@@ -158,6 +160,7 @@ window.run = function () {
     dynamicPathfinding = true
     inProgress = false
   }, timeoutTime)
+  
 };
 
 // CLEAR BOARD FUNCTION
@@ -468,21 +471,4 @@ window.stripesMaze = function () {
 
 document.getElementById('c5r8').setAttribute('disabled', 'true');
 
-/* function rundDfsMaze() {
-  let graph = control.makeGraph(ROWS, COLUMNS);
 
-  let ecie = algorithms.dfsMaze(graph);
-  console.log(ecie);
-
-  ecie.visited = ecie.visited.filter(x => x != undefined);
-  console.log(ecie.visited);
-
-  for (let el of ecie.visited) {
-    document.getElementById(el).classList.add('blocked');
-  }
-};
-
-rundDfsMaze();  */
-
-/* control.visualizeDfs(ROWS, COLUMNS, startNode, endNode, blockedNodes); */
-/* control.visualizeDijkstra(ROWS, COLUMNS, startNode, endNode, blockedNodes, weightNodes); */

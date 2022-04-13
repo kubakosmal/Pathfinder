@@ -138,7 +138,6 @@ function aStar(graph, start, end) {
           path.unshift(trackedNode);
           trackedNode = tracking[trackedNode];
           if (counter == 500) {
-            console.log("infinite loop");
             break;
           }
           counter++;
@@ -221,7 +220,6 @@ function aStar(graph, start, end) {
           closedSet.add(newSuccessor.name);
           // add successor to tracking
           tracking[successor] = currentLowest.name;
-          console.log(newSuccessor);
         }
       }
     }

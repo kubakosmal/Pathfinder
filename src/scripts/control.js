@@ -19,7 +19,6 @@ function instantAnimate(visited, path) {
     document.getElementById(el).classList.toggle("already");
   }
 
-  console.log(path);
   for (let el of path) {
     document.getElementById(el).classList.remove("visited");
     document.getElementById(el).classList.add("shortest-path-node");
@@ -165,6 +164,14 @@ function setInitialValues() {
   setInitialStart.classList.toggle("start");
   setInitialEnd.classList.toggle("end");
   blockedNodes = [];
+}
+
+function determineStartAndEndNodes(rows, columns) {
+  let row = Math.floor(rows / 3);
+  let startCol = Math.floor(columns / 4);
+  let endCol = Math.floor((columns / 2) + columns / 4);
+
+  return [`c${startCol}r${row}`, `c${endCol}r${row}`]
 }
 
 // make a graph function
@@ -377,7 +384,6 @@ function filterWeightedGraph(graph, blocked, weightNodes) {
         delete graph[el][le];
       }
       if (weightNodes.includes(le)) {
-        console.log(le);
         graph[el][le].weight = 2;
       }
     }
@@ -407,7 +413,6 @@ function visualizeAstar(
   // finding shortest path
   let ecie = algorithms.aStar(graph, startNode, endNode);
 
-  console.log(ecie);
 
   // if there's no shortest path
   if (typeof ecie === "undefined") {
@@ -438,7 +443,6 @@ function visualizeBfs(ROWS, COLUMNS, startNode, endNode, blockedNodes) {
   // finding shortest path
   let ecie = algorithms.bfs(graph, startNode, endNode);
 
-  console.log(ecie);
 
   // if there's no shortest path
   if (typeof ecie === "undefined") {
@@ -450,7 +454,7 @@ function visualizeBfs(ROWS, COLUMNS, startNode, endNode, blockedNodes) {
     let timeoutTime = animateGraph(ecie.visited, ecie.path);
 
     // disable buttons for running time
-    disableButtons(timeoutTime);
+    disableButtons(timeoutTime[0], timeoutTime[1]);
 
     return (timeoutTime[0] + timeoutTime[1]) * timeoutTime[1];
   }
@@ -464,7 +468,6 @@ function visualizeDfs(ROWS, COLUMNS, startNode, endNode, blockedNodes) {
 
   let ecie = algorithms.dfs(graph, startNode, endNode);
 
-  console.log(ecie);
 
   // if there's no shortest path
   if (typeof ecie === "undefined") {
@@ -474,7 +477,7 @@ function visualizeDfs(ROWS, COLUMNS, startNode, endNode, blockedNodes) {
   else {
     document.getElementById("no-path").setAttribute("hidden", "true");
     let timeoutTime = animateGraph(ecie.visited, ecie.path);
-    disableButtons(timeoutTime);
+    disableButtons(timeoutTime[0], timeoutTime[1]);
 
     return (timeoutTime[0] + timeoutTime[1]) * timeoutTime[1];
   }
@@ -498,7 +501,6 @@ function visualizeDijkstra(
   // finding shortest path
   let ecie = algorithms.dijkstra(graph, startNode, endNode);
 
-  console.log(ecie);
 
   // if there's no shortest path
   if (typeof ecie === "undefined") {
@@ -508,7 +510,7 @@ function visualizeDijkstra(
   else {
     document.getElementById("no-path").setAttribute("hidden", "true");
     let timeoutTime = animateGraph(ecie.visited, ecie.path);
-    disableButtons(timeoutTime);
+    disableButtons(timeoutTime[0], timeoutTime[1]);
 
     return (timeoutTime[0] + timeoutTime[1]) * timeoutTime[1];
   }
@@ -523,8 +525,7 @@ function dynamicAnimate(
   blockedNodes,
   weightNodes
 ) {
-  console.log("INSIDE DYNAMIC FUNCTION, BLOCKEDNODES BELOW");
-  console.log(blockedNodes)                            
+
   // get the value of checked radio button
   let choosedAlgorithm = document.querySelector(
     'input[name="checked-algorithm"]:checked'
@@ -603,8 +604,6 @@ function disableButtons(timeoutTime, duration) {
 function calculateCellQuantity(cellSize) {
   let containerWidth = document.querySelector(".tabela").offsetWidth;
   let containerHeight = document.querySelector(".tabela").offsetHeight;
-  console.log(containerWidth);
-  console.log(containerHeight);
   let numOfCols = Math.floor(containerWidth / cellSize);
   let numOfRows = Math.floor(containerHeight / cellSize);
   if (numOfCols % 2 == 0) {
@@ -617,8 +616,6 @@ function calculateCellQuantity(cellSize) {
 
 function removeNodeStyles() {
   let allNodesToErase = document.querySelectorAll("td");
-  console.log("NODES TO ERASE BELOW");
-  console.log(allNodesToErase);
   for (let el of allNodesToErase) {
     el.removeAttribute("style");
     el.classList.remove('visited');
@@ -698,5 +695,6 @@ module.exports = {
   calculateCellQuantity,
   removeNodeStyles,
   disableButtons,
-  initialAnimations
+  initialAnimations,
+  determineStartAndEndNodes
 };

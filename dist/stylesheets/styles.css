@@ -713,7 +713,7 @@ td:hover {
 }
 
 .start {
-  background-image: url("http://svgur.com/i/dHR.svg");
+  background-image: url("../static/start-icon.svg");
   background-size: 120%;
   background-position: center;
   border: 1px solid #FF2965 !important;
@@ -724,7 +724,7 @@ td:hover {
 }
 
 .end {
-  background-image: url("http://svgur.com/i/dHG.svg");
+  background-image: url("../static/end-icon.svg");
   background-size: 120%;
   background-position: center;
   border: 1px solid #31A6FA !important;

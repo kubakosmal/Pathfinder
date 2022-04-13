@@ -62,7 +62,6 @@ function lightRecursiveDivision(width, height) {
       let randomColumnToSkip =
         possibleColumns[getRandomInt(0, possibleColumns.length)];
 
-      console.log(randomColumnToSkip);
 
       for (let i = colStart; i <= colEnd; i++) {
         if (i != randomColumnToSkip) {
@@ -151,7 +150,6 @@ function lightRecursiveDivision(width, height) {
   }
 
   divideGraph(1, width - 2, 1, height - 2, "vertical");
-  console.log(passages);
   return blockedNodes;
 }
 

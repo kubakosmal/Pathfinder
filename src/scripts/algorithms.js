@@ -160,9 +160,7 @@ function aStar(graph, start, end) {
 
     // current node successors
     let dests = graph[currentLowest.name];
-    if (dests == undefined) {
-      console.log(`I am dests of ${currentLowest.name} and im undefined`);
-    }
+
     let destsProps = Object.keys(dests);
 
     // for every successor
@@ -183,7 +181,6 @@ function aStar(graph, start, end) {
           path.unshift(trackedNode);
           trackedNode = tracking[trackedNode];
           if (counter == 500) {
-            console.log("infinite loop");
             break;
           }
           counter++;
@@ -231,10 +228,6 @@ function aStar(graph, start, end) {
           Math.abs(colPosition - endColPosition);
 
         // f of successor
-        if (graph[successor] == undefined) {
-          console.log("IM UNDEFINED");
-          console.log(successor);
-        }
         let f =
           distance * graph[currentLowest.name][successor].weight + heuristic;
 
@@ -314,9 +307,6 @@ function dfsMaze(graph) {
 
   // add first node to the open array
   open.push(start);
-  console.log(start);
-  console.log("graph below");
-  console.log(graph);
   // while there's at least one unvisited node
   while (open.length > 0) {
     // pop first item from an open array
@@ -360,33 +350,6 @@ function dfs(graph, start, end) {
     closed.add(current);
     visitedAndPath.visited.push(current);
   }
-
-  /* search(start);
-
-  return visitedAndPath; */
-
-  /*   open.push(start);
-
-  while(open.length > 0) {
-    let current = open.shift();
-
-    if (current == end) {
-      console.log('siema')
-      visitedAndPath.visited.push(current);
-      visitedAndPath.path =  visitedAndPath.visited;
-      return visitedAndPath;
-    } else {
-      for (let el of graph[current]) {
-        if (!closed.has(el)) {
-          closed.add(el);
-          open.unshift(el);
-        }
-      }
-      
-    }
-    closed.add(current);
-    visitedAndPath.visited.push(current);
-  } */
 }
 
 // dijkstra algorithm
@@ -430,16 +393,9 @@ function dijkstra(graph, start, end) {
 
     // if curr is the end
     if (curr.name == end) {
-      console.log("found!");
       let path = [];
       let trackedNode = end;
       tracking[start] == null;
-
-      console.log("TRACKING!!!");
-      console.log(tracking[end]);
-      console.log("TRACKING 2!!!");
-      console.log(tracking[tracking[end]]);
-      console.log(tracking[start]);
 
       while (trackedNode != undefined) {
         path.unshift(trackedNode);
@@ -447,26 +403,15 @@ function dijkstra(graph, start, end) {
       }
 
       visitedAndPath.path = path;
-      console.log(count);
+
       return visitedAndPath;
     } else {
-      console.log("curr weight");
-      console.log(curr.weight);
       for (let el of neighbors) {
         if (!visited.has(el)) {
           tracking[el] = curr.name;
-          console.log(`im ${el} called by ${tracking[el]}`);
 
           let newWeight = (curr.weight + 1) * graph[curr.name][el].weight;
-          if (graph[curr.name][el].weight == 1.5) {
-            console.log(
-              `${el} is weighted. Its base weight is ${
-                graph[curr.name][el].weight
-              }. Its parrent weight is ${
-                curr.weight
-              }, thus its new weight is ${newWeight}`
-            );
-          }
+          
           queue.push({ name: el, weight: newWeight });
           visited.add(el);
         }
@@ -545,7 +490,6 @@ function recursiveDivision(width, height, orientation) {
       let randomColumnToSkip =
         possibleColumns[getRandomInt(0, possibleColumns.length)];
 
-      console.log(randomColumnToSkip);
 
       for (let i = colStart; i <= colEnd; i++) {
         if (i != randomColumnToSkip) {
@@ -634,7 +578,6 @@ function recursiveDivision(width, height, orientation) {
   }
 
   divideGraph(1, width - 2, 1, height - 2, orientation);
-  console.log(passages);
   return blockedNodes;
 }
 
