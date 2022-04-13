@@ -51,10 +51,6 @@ img {
   .wrapper {
     height: 1300px;
   }
-
-  .body {
-    overflow: scroll;
-  }
 }
 
 /* Header*/
@@ -75,7 +71,7 @@ img {
   text-decoration: none;
   
   color: #0F1115;
-  padding: 10px;
+  padding: 1rem;
   font-weight: 400;
   
   background-color: #FFF208;
@@ -147,10 +143,8 @@ img {
 /* Tablet */
 @media only screen and (max-width: 1024px) {
   .main {
-    grid-template: auto auto / 1fr;
-    grid-template-areas:
-      "interface"
-      "table";
+    display: flex;
+    flex-direction: column;
   }
 }
 /* -Tablet */
@@ -197,6 +191,7 @@ img {
     border-bottom: none;
     width: 50%;
     min-height: none;
+    margin-top: 3.5rem;
   }
 }
 
@@ -465,6 +460,12 @@ label:hover {
   align-items: center;
 }
 
+@media (max-width: 1024px) {
+  .mazes {
+    width: 100%;
+  }
+}
+
 .maze {
   width: 70%;
   display: flex;
@@ -593,8 +594,7 @@ label:hover {
 @media only screen and (max-width: 1024px) {
   .table-grid {
     border-left: none;
-    width: 100%;
-    height: 500px;
+    margin-top: 2rem;
   }
 }
 
@@ -612,8 +612,7 @@ label:hover {
 
 .wbl {
   display: flex;
-  justify-content: center;
-  
+  justify-content: center;  
 }
 
 .walls-label {
