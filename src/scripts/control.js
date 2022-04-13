@@ -416,12 +416,10 @@ function visualizeAstar(
 
   // if there's no shortest path
   if (typeof ecie === "undefined") {
-    document.getElementById("no-path").removeAttribute("hidden");
+    console.log('no path')
   }
   // if everything went good
   else {
-    document.getElementById("no-path").setAttribute("hidden", "true");
-
     // animate graph
     let timeoutTime = animateGraph(ecie.visited, ecie.path);
 
@@ -446,11 +444,10 @@ function visualizeBfs(ROWS, COLUMNS, startNode, endNode, blockedNodes) {
 
   // if there's no shortest path
   if (typeof ecie === "undefined") {
-    document.getElementById("no-path").removeAttribute("hidden");
+    console.log('no path')
   }
   // if everything went good
   else {
-    document.getElementById("no-path").setAttribute("hidden", "true");
     let timeoutTime = animateGraph(ecie.visited, ecie.path);
 
     // disable buttons for running time
@@ -471,11 +468,10 @@ function visualizeDfs(ROWS, COLUMNS, startNode, endNode, blockedNodes) {
 
   // if there's no shortest path
   if (typeof ecie === "undefined") {
-    document.getElementById("no-path").removeAttribute("hidden");
+    console.log('no path')
   }
   // if everything went good
   else {
-    document.getElementById("no-path").setAttribute("hidden", "true");
     let timeoutTime = animateGraph(ecie.visited, ecie.path);
     disableButtons(timeoutTime[0], timeoutTime[1]);
 
@@ -504,11 +500,10 @@ function visualizeDijkstra(
 
   // if there's no shortest path
   if (typeof ecie === "undefined") {
-    document.getElementById("no-path").removeAttribute("hidden");
+    console.log('no path')
   }
   // if everything went good
   else {
-    document.getElementById("no-path").setAttribute("hidden", "true");
     let timeoutTime = animateGraph(ecie.visited, ecie.path);
     disableButtons(timeoutTime[0], timeoutTime[1]);
 
