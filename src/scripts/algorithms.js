@@ -287,39 +287,7 @@ function aStar(graph, start, end) {
   }
 }
 
-function dfsMaze(graph) {
-  function getRandomInt(min, max) {
-    return min + Math.floor(Math.random() * (max - min + 1));
-  }
 
-  // starting and end values of a graph
-  let start = Object.keys(graph)[0];
-
-  // visited and blocked obj
-  let visitedAndBlocked = {
-    visited: [],
-    blocked: [],
-  };
-
-  // open queue and closed set
-  let open = [];
-  let closed = new Set();
-
-  // add first node to the open array
-  open.push(start);
-  // while there's at least one unvisited node
-  while (open.length > 0) {
-    // pop first item from an open array
-    let currentNode = open.pop();
-    let neighbors = graph[currentNode];
-
-    for (let el of neighbors) {
-      if (!closed.has(el)) {
-      }
-    }
-  }
-  return visitedAndBlocked;
-}
 
 // dfs algorithm
 function dfs(graph, start, end) {
@@ -625,7 +593,6 @@ function stripesMaze(ROWS, COLUMNS) {
 module.exports = {
   bfs,
   aStar,
-  dfsMaze,
   dfs,
   dijkstra,
   recursiveDivision,

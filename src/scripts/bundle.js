@@ -1,1 +1,0 @@
-console.error("\n/home/kuba/babcisranie/node_modules/gsap/all.js:1\nimport gsap from \"./gsap-core.js\";\n^\nParseError: 'import' and 'export' may appear only with 'sourceType: module'");

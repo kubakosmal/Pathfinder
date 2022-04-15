@@ -1,8 +1,5 @@
 const algorithms = require("./scripts/algorithms.js");
 const control = require("./scripts/control.js");
-const {
-  lightRecursiveDivision,
-} = require("./scripts/lightRecursiveDivision.js");
 
 // initial animations
 control.initialAnimations();
@@ -413,8 +410,8 @@ window.RDM = function (orientation) {
     el.classList.remove("blocked");
   }
   let counter = 0;
-  const xd = algorithms.recursiveDivision(COLUMNS, ROWS, orientation);
-  for (const el of xd) {
+  const nodesToAnimate = algorithms.recursiveDivision(COLUMNS, ROWS, orientation);
+  for (const el of nodesToAnimate) {
     setTimeout(() => {
       if (el != startNode && el != endNode) {
         document.getElementById(el).classList.add("blocked");
@@ -455,8 +452,8 @@ window.stripesMaze = function () {
     el.classList.remove("blocked");
   }
   let counter = 0;
-  const xd = algorithms.stripesMaze(ROWS, COLUMNS);
-  for (const el of xd) {
+  const nodesToAnimate = algorithms.stripesMaze(ROWS, COLUMNS);
+  for (const el of nodesToAnimate) {
     setTimeout(() => {
       if (el != startNode && el != endNode) {
         document.getElementById(el).classList.add("blocked");
