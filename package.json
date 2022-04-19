@@ -1,7 +1,7 @@
 {
-  "name": "tryingwebpack",
+  "name": "pathfinder",
   "version": "1.0.0",
-  "description": "",
+  "description": "A simple web app that visualizes how particular pathfinding algortithms work",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,8 +10,8 @@
     "start": "webpack serve --open"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Jakub Kosmal",
+  "license": "MIT",
   "devDependencies": {
     "prettier": "^2.4.1",
     "terser-webpack-plugin": "^5.2.4",
